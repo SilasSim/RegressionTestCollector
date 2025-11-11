@@ -1,0 +1,58 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:RegressionTestCollector.Controls">
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="BaseStyles.xaml"></ResourceDictionary>
+  </ResourceDictionary.MergedDictionaries>
+
+  <Style x:Key="TitlebarButtonStyle" TargetType="Button">
+    <Setter Property="Width" Value="42"/>
+    <Setter Property="Height" Value="28"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="{DynamicResource Brush.ForegroundColor}"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Border" Background="Transparent">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush.MouseOver}"></Setter>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush.IsPressed}"></Setter>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="TitlebarGridStyle" TargetType="Grid" BasedOn="{StaticResource GridStyle}">
+    <Setter Property="Background" Value="Transparent"></Setter>
+    <Setter Property="Margin" Value="0 5"></Setter>
+  </Style>
+
+  <Style x:Key="TaskbarIconButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="Transparent"></Setter>
+    <Setter Property="BorderThickness" Value="0"></Setter>
+    <Setter Property="Margin" Value="2 0 0 0"></Setter>
+    <Setter Property="Width" Value="20"></Setter>
+    <Setter Property="Height" Value="20"></Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Image x:Name="IconImage" Source="pack://application:,,,/Resources/iconLight.ico" Stretch="Uniform" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
+          <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding SelectedTheme, RelativeSource={RelativeSource AncestorType=controls:TitlebarControl}}" Value="Dark">
+              <Setter TargetName="IconImage" Property="Source" Value="pack://application:,,,/Resources/iconDark.ico"></Setter>
+            </DataTrigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

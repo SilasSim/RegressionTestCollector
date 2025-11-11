@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="RegressionTestCollector.Controls.SearchTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RegressionTestCollector.Controls"
+             xmlns:properties="clr-namespace:RegressionTestCollector.Resources"
+             xmlns:converter="clr-namespace:RegressionTestCollector.Converters"
+             xmlns:behaviors="clr-namespace:RegressionTestCollector.Behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+  <Grid x:Name="MainGrid">
+    <Grid.Resources>
+      <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Grid.Resources>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <local:SearchBox Grid.Column="0" SearchString="{Binding SearchString, Mode=TwoWay}" MatchCounter="{Binding MatchCounter.MatchCounterText}" FontSize="20" VerticalAlignment="Center" />
+      <Button Grid.Column="1" Style="{StaticResource ButtonStyle}" FontWeight="SemiBold" Padding="8 0" FontSize="20" Content="{x:Static properties:SearchTableString.Debug}" Background="{StaticResource Brush.Alert}" 
+                Visibility="{Binding CanDebugSessionBeCleanedUp, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+    <DataGrid Grid.Row="1"
+              Background="{DynamicResource BaseBackgroundColor}" 
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Stretch"
+              ItemsSource="{Binding FilteredData}" 
+              CellStyle="{StaticResource DataGridCellStyle}"
+              ColumnHeaderStyle="{StaticResource TableHeaderStyle}"
+              RowHeaderStyle="{StaticResource DataGridRowHeaderStyle}"
+              RowStyle="{StaticResource DataGridRowStyle}"
+              SelectionUnit="FullRow"
+              AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
+              behaviors:ScrollbarWheelBehavior.EnableHorizontalScroll="True">
+
+      <DataGrid.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuCopyCommandString}" 
+                    Command="{Binding CopyCommandStringCommand}" 
+                CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Icon="📋"></MenuItem>
+          <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuCopyOptions}"
+                    Icon="⚙">
+            <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuSetVerbose}" IsCheckable="True"
+                      IsChecked="{Binding SettingsService.IsVerboseSet}"/>
+            <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuSetDebug}" IsCheckable="True"
+                      IsChecked="{Binding SettingsService.IsDebugSet}"/>
+            <Separator Style="{StaticResource SeparatorStyle}" />
+
+
+            <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuExeInclusion}" IsCheckable="True"
+                      IsChecked="{Binding SettingsService.IsExeIncluded}"/>
+            <Separator Style="{StaticResource SeparatorStyle}" />
+            <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuRelativePath}" IsCheckable="True"
+                      IsChecked="{Binding SettingsService.IsUsingAbsolutePath, Converter={StaticResource InverseBooleanConverter}}"/>
+            <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuAbsolutePath}" IsCheckable="True"
+                      IsChecked="{Binding SettingsService.IsUsingAbsolutePath}"/>
+            <Separator Style="{StaticResource SeparatorStyle}" />
+            <MenuItem Header="{x:Static properties:SearchTableString.PlatformWindows}" IsCheckable="True"
+                      IsChecked="{Binding SettingsService.IsWindows}"/>
+            <MenuItem Header="{x:Static properties:SearchTableString.PlatformLinux}" IsCheckable="True"
+                      IsChecked="{Binding SettingsService.IsWindows, Converter={StaticResource InverseBooleanConverter}}"/>
+          </MenuItem>
+          <Separator Style="{StaticResource SeparatorStyle}" />
+          <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuPrepareForDebug}" 
+                    Command="{Binding PrepareForDebugSessionCommand}" 
+                    CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Icon="🐛"></MenuItem>
+          <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuCleanUpDebugSession}" 
+                    Command="{Binding CleanUpDebugSessionCommand}" 
+                    IsEnabled="{Binding CanDebugSessionBeCleanedUp}"
+                    CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Icon="🐛"></MenuItem>
+          <Separator Style="{StaticResource SeparatorStyle}" />
+          <MenuItem Header="{x:Static properties:SearchTableString.ContextMenuOpenFolder}" 
+                    Command="{Binding OpenFolderCommand}" 
+                    CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Icon="📁"></MenuItem>
+        </ContextMenu>
+      </DataGrid.ContextMenu>
+
+      <DataGrid.Columns>
+        <DataGridTemplateColumn Header="{x:Static properties:SearchTableString.TestNameHeader}" Width="500">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <local:HighlightTextBlock Style="{StaticResource DefaultTextColumnStyle}"
+                         Text="{Binding RegressionTestData.TestName}"
+                         Highlight="{Binding DataContext.SearchString, 
+                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         HighlightTurnedOff="{Binding DataContext.Highlighter.IsTurnedOff,
+                          RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <DataGridTemplateColumn Header="{x:Static properties:SearchTableString.GroupNameHeader}" Width="200">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <local:HighlightTextBlock Style="{StaticResource DefaultTextColumnStyle}"
+                                        Text="{Binding RegressionTestData.TestGroup }"
+                                        Highlight="{Binding DataContext.SearchString, 
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        HighlightTurnedOff="{Binding DataContext.Highlighter.IsTurnedOff,
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+          <DataGridTemplateColumn.HeaderTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="GroupNameHeaderTextBlock" Text="{x:Static properties:SearchTableString.GroupNameHeader}" />
+                <ToggleButton x:Name="GroupFilterTglButton" Style="{StaticResource FilterToggleStyle}" Margin="5 4 0 0">
+                </ToggleButton>
+                <Popup IsOpen="{Binding IsChecked, ElementName=GroupFilterTglButton}" StaysOpen="False">
+                  <Border>
+                    <local:FilterControl Background="{DynamicResource Brush.BackgroundColor}" 
+                                         Padding="10" Height="450" Width="250"
+                                         DataContext="{Binding DataContext.GroupFilterViewModel, 
+                      RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                         />
+
+                  </Border>
+
+                </Popup>
+              </StackPanel>
+            </DataTemplate>
+          </DataGridTemplateColumn.HeaderTemplate>
+        </DataGridTemplateColumn>
+
+        <DataGridTemplateColumn Header="{x:Static properties:SearchTableString.CommandStringHeader}" 
+                                Width="{Binding DataContext.LastColWidth, ElementName=MainGrid}">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <local:HighlightTextBlock Style="{StaticResource DefaultTextColumnStyle}"
+                         Text="{Binding RegressionTestData.TestCommand}"
+                         Highlight="{Binding DataContext.SearchString, 
+                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         HighlightTurnedOff="{Binding DataContext.Highlighter.IsTurnedOff,
+                RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,146 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+  <Style x:Key="GridSplitterStyle" TargetType="GridSplitter">
+    <Setter Property="Background" Value="{DynamicResource Brush.Divider}"></Setter>
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Divider}"></Setter>
+  </Style>
+
+  <Style x:Key="MenuStyle" TargetType="Menu">
+    <Setter Property="Background" Value="{DynamicResource Brush.SecondaryBackground}"></Setter>
+  </Style>
+
+  <Style x:Key="MenuItemStyle" TargetType="MenuItem">
+    <Setter Property="Foreground" Value="{DynamicResource Brush.ForegroundColor}"></Setter>
+  </Style>
+
+  <Style x:Key="GridStyle" TargetType="Grid">
+    <Setter Property="Background" Value="{DynamicResource Brush.BackgroundColor}"></Setter>
+  </Style>
+
+
+  <Style TargetType="DataGridColumnHeadersPresenter">
+    <Setter Property="Background" Value="{DynamicResource Brush.TableHeaderBackground}"></Setter>
+    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+    <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+  </Style>
+
+  <Style x:Key="TableHeaderStyle" TargetType="DataGridColumnHeader">
+    <Setter Property="FontSize" Value="14"></Setter>
+    <Setter Property="FontWeight" Value="SemiBold"></Setter>
+    <Setter Property="Background" Value="{DynamicResource Brush.TableHeaderBackground}"></Setter>
+    <Setter Property="Foreground" Value="{DynamicResource Brush.ForegroundColor}"></Setter>
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"></Setter>
+    <Setter Property="BorderThickness" Value="1"></Setter>
+    <Setter Property="Padding" Value="8"></Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="{DynamicResource Brush.MouseOver}"></Setter>
+      </Trigger>
+      <Trigger Property="IsPressed" Value="True">
+        <Setter Property="Background" Value="{DynamicResource Brush.IsPressed}"></Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+
+  <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+    <Setter Property="Background" Value="Transparent"></Setter>
+    <Setter Property="Foreground" Value="{DynamicResource Brush.ForegroundColor}"></Setter>
+  </Style>
+
+  <Style x:Key="TextBoxStyle" TargetType="TextBox">
+    <Setter Property="Background" Value="{DynamicResource Brush.InputBackground}"></Setter>
+    <Setter Property="Foreground" Value="{DynamicResource Brush.ForegroundColor}"></Setter>
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.InputBorder}"></Setter>
+    <Setter Property="BorderThickness" Value="1"></Setter>
+  </Style>
+
+  <Style x:Key="DefaultTextColumnStyle" TargetType="TextBlock" BasedOn="{StaticResource TextBlockStyle}">
+    <Setter Property="Padding" Value="8"></Setter>
+    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+    
+  </Style>
+
+  <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+    <Setter Property="Background" Value="Transparent"></Setter>
+  </Style>
+
+  <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+    <Setter Property="Background" Value="{DynamicResource Brush.CellBackground}"></Setter>
+    <Style.Triggers>
+
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="{DynamicResource Brush.MouseOver}"></Setter>
+      </Trigger>
+      <Trigger Property="IsSelected" Value="True">
+        <Setter Property="Background" Value="{DynamicResource Brush.Highlight}"></Setter>
+      </Trigger>
+      <DataTrigger Binding="{Binding IsDebug}" Value="True">
+        <Setter Property="Background" Value="{DynamicResource Brush.Alert}"></Setter>
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style x:Key="DataGridRowHeaderStyle" TargetType="DataGridRowHeader">
+    <Setter Property="Background" Value="{DynamicResource Brush.SecondaryBackground}"></Setter>
+  </Style>
+
+  <Style x:Key="DataGridSelectAllButtonStyle" TargetType="Button"></Style>
+
+
+  <Style x:Key="ButtonStyle" TargetType="Button">
+    <Setter Property="Background" Value="{DynamicResource Brush.BackgroundColor}"></Setter>
+    <Setter Property="Foreground" Value="{DynamicResource Brush.ForegroundColor}"></Setter>
+  </Style>
+
+  <Style x:Key="SeparatorStyle" TargetType="Separator">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Separator">
+          <Grid Background="Transparent" SnapsToDevicePixels="True">
+            <Rectangle x:Name="Line" Height="1" HorizontalAlignment="Stretch" Fill="{DynamicResource Brush.ForegroundColor}"></Rectangle>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="BorderStyle" TargetType="Border">
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"></Setter>
+    <Setter Property="BorderThickness" Value="1"></Setter>
+  </Style>
+
+  <Style x:Key="ListViewStyle" TargetType="ListView">
+    <Setter Property="Background" Value="{DynamicResource Brush.BackgroundColor}"></Setter>
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"></Setter>
+    <Setter Property="BorderThickness" Value="1"></Setter>
+  </Style>
+
+  <Geometry x:Key="FilterIconGeometry">M10,10 L90,10 60,50 60,80 40,90 40,50 Z</Geometry>
+
+  <Style x:Key="FilterToggleStyle" TargetType="ToggleButton">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ToggleButton">
+          <Path x:Name="Icon"
+                Data="{StaticResource FilterIconGeometry}"
+                Width="13" Height="13"
+                Fill="{DynamicResource Brush.Icon.Filter}"
+                Stretch="Uniform"/>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource Brush.Icon.FilterHover}"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+              <Setter TargetName="Icon" Property="Fill" Value="{DynamicResource Brush.Icon.FilterActive}"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

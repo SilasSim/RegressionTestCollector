@@ -1,0 +1,72 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style x:Key="RoundedScrollbarThumbStyle" TargetType="Thumb">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Thumb">
+          <Border x:Name="Border"
+                Background="{TemplateBinding Background}"
+                CornerRadius="10">
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Border" Property="Background" Value="{DynamicResource Color.ScrollbarThumbHover}"/>
+            </Trigger>
+            <Trigger Property="IsDragging" Value="True">
+              <Setter TargetName="Border" Property="Background" Value="{DynamicResource Color.ScrollbarThumbActive}"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Background" Value="{DynamicResource Color.ScrollbarThumb}"></Setter>
+  </Style>
+
+  <Style TargetType="ScrollBar">
+    <Setter Property="Background" Value="{DynamicResource Brush.BackgroundColor}"/>
+    <Setter Property="Width" Value="4"></Setter>
+    <Setter Property="Template">
+
+      <Setter.Value>
+        <ControlTemplate TargetType="ScrollBar">
+          <Grid>
+            <Border x:Name="TrackHost"
+                  Background="{DynamicResource Color.ScrollbarTrack}"
+                  CornerRadius="10">
+              <Track x:Name="PART_Track">
+                <Track.Thumb>
+                  <Thumb x:Name="Thumb"
+                       Style="{StaticResource RoundedScrollbarThumbStyle}"
+                       />
+                </Track.Thumb>
+                <Track.DecreaseRepeatButton>
+                  <RepeatButton Width="0" Height="0" Focusable="False"></RepeatButton>
+                </Track.DecreaseRepeatButton>
+                <Track.IncreaseRepeatButton>
+                  <RepeatButton Width="0" Height="0" Focusable="False"></RepeatButton>
+                </Track.IncreaseRepeatButton>
+              </Track>
+            </Border>
+
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+              <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="True"></Setter>
+              <Setter Property="Height" Value="Auto"></Setter>
+              <Setter Property="Width" Value="4"/>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Horizontal">
+              <Setter Property="Height" Value="4"/>
+              <Setter Property="Width" Value="Auto"/>
+              <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False"/>
+            </Trigger>
+            <Trigger SourceName="TrackHost" Property="IsMouseOver" Value="True">
+              <Setter TargetName="TrackHost" Property="Background" Value="{DynamicResource Color.ScrollbarTrackHover}"></Setter>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>
