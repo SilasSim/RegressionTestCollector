@@ -259,10 +259,15 @@ namespace RegressionTestCollector.ViewModel
         {
           return true;
         }
-        string[] searchStrings = StringUtils.ParseSearchTerms(mSearchString, mFilterChache);
-        bool searchStringFilterApplies = item.RegressionTestData.ContainsAny(searchStrings);
-        bool groupFilterApplies = groupFilterStrings.Count == 0;
 
+        bool searchStringFilterApplies = true;
+        if (!string.IsNullOrEmpty(mSearchString))
+        {
+          string[] searchStrings = StringUtils.ParseSearchTerms(mSearchString, mFilterChache);
+          searchStringFilterApplies = item.RegressionTestData.ContainsAny(searchStrings);
+        }
+
+        bool groupFilterApplies = groupFilterStrings.Count == 0;
 
         foreach (var groupString in groupFilterStrings)
         {
