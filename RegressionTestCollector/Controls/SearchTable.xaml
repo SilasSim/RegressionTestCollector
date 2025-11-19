@@ -83,6 +83,27 @@
       </DataGrid.ContextMenu>
 
       <DataGrid.Columns>
+
+        <DataGridTemplateColumn Width="40">
+          <DataGridTemplateColumn.HeaderTemplate>
+            <DataTemplate>
+              <Image Source="/Resources/Tux.png" />
+            </DataTemplate>
+          </DataGridTemplateColumn.HeaderTemplate>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Ellipse x:Name="Circle" Width="12" Height="12"
+                    Fill="{DynamicResource Brush.CircleFill}"
+                    Visibility="Collapsed"/>
+              <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding RegressionTestData.IsSupportedByLinux}" Value="True">
+                  <Setter TargetName="Circle" Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+              </DataTemplate.Triggers>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
         <DataGridTemplateColumn Header="{x:Static properties:SearchTableString.TestNameHeader}" Width="500">
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>

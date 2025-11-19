@@ -20,6 +20,8 @@ namespace RegressionTestCollector.Models
     public string Inifile { get; set; } = "";
     public string Sourcefile { get; set; } = "";
     public string Outfile { get; set; } = "";
+
+    public bool IsSupportedInLinux { get; set; }
     public string Logfile { get; set; } = "";
     public Dictionary<string, string> AdditionalParameter { get; set; } = [];
 

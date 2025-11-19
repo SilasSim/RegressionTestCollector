@@ -33,4 +33,5 @@
   <SolidColorBrush x:Key="Color.ScrollbarThumb" Color="#A3A3A3"></SolidColorBrush>
   <SolidColorBrush x:Key="Color.ScrollbarThumbHover" Color="#888888"></SolidColorBrush>
   <SolidColorBrush x:Key="Color.ScrollbarThumbActive" Color="#626262"></SolidColorBrush>
+  <SolidColorBrush x:Key="Brush.CircleFill" Color="Black"/>
 </ResourceDictionary>

@@ -7,6 +7,8 @@ namespace RegressionTestCollector.Models
 
     public string TestName { get; set; }
 
+    public bool IsSupportedByLinux { get; set; }
+
     public string TestCommand { get; set; }
 
     public string TestGroup { get; set; }

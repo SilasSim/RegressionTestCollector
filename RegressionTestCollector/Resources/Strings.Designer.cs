@@ -178,6 +178,15 @@ namespace RegressionTestCollector.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string MenuExport {
+            get {
+                return ResourceManager.GetString("MenuExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string MenuHelp {
@@ -264,6 +273,15 @@ namespace RegressionTestCollector.Resources {
         public static string MenuShowOutput {
             get {
                 return ResourceManager.GetString("MenuShowOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create text report....
+        /// </summary>
+        public static string MenuTextReport {
+            get {
+                return ResourceManager.GetString("MenuTextReport", resourceCulture);
             }
         }
         

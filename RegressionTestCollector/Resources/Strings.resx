@@ -156,6 +156,9 @@
   <data name="MenuCollectingMethodPythonTooltip" xml:space="preserve">
     <value>Use external collecting strategy implemented in Python. Select the ListRegressionTests.py script.</value>
   </data>
+  <data name="MenuExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
   <data name="MenuHelp" xml:space="preserve">
     <value>Help</value>
   </data>
@@ -185,6 +188,9 @@
   </data>
   <data name="MenuShowOutput" xml:space="preserve">
     <value>Show Output</value>
+  </data>
+  <data name="MenuTextReport" xml:space="preserve">
+    <value>Create text report...</value>
   </data>
   <data name="MenuThemeDark" xml:space="preserve">
     <value>Dark</value>

@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Text;
+using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
 using MVVMArchitecture;
 using RegressionTestCollector.CollectingStrategies;
 using RegressionTestCollector.Models;
@@ -25,10 +28,49 @@ namespace RegressionTestCollector.ViewModel
       ChangePythonCommandCommand = new RelayCommand<string>(ChangePythonCommand);
       CancelLoadingCommand = new RelayCommand(CancelLoadingProcess);
       ChangeCollectingStrategyCommand = new RelayCommand<string>(ChangeCollectingStrategy);
+      CreatePrintCommand = new RelayCommand(CreatePrint);
 
       // Is set twice, since the strategy handler needs to be initialized
       CollectingStrategyHandler = new CollectingStrategyHandler(new CSharpCollectingStrategy(OnProgressChanged));
       ChangeCollectingStrategy(Settings.Default.SelectedCollectingMethod);
+    }
+
+    private void CreatePrint()
+    {
+      var dialog = new SaveFileDialog()
+      {
+        Title = "Export Report",
+        Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+        FileName = "RTC_report.txt",
+        OverwritePrompt = true
+      };
+
+      if (!dialog.ShowDialog() ?? false)
+      {
+        return;
+      }
+
+      var path = dialog.FileName;
+      var builder = new StringBuilder();
+      var lastGroup = string.Empty;
+      foreach (var regTest in SearchTableViewModel.SourceData)
+      {
+        var data = regTest.RegressionTestData;
+        if (lastGroup != data.TestGroup)
+        {
+          builder.AppendLine("------------------------");
+          builder.AppendLine(data.TestGroup);
+          builder.AppendLine("------------------------");
+          lastGroup = data.TestGroup;
+        }
+
+        builder.AppendLine("--TEST NAME--");
+        builder.AppendLine($"{data.TestName}" + (data.IsSupportedByLinux ? " - (Linux supported)" : ""));
+        builder.AppendLine("--COMMAND--");
+        builder.AppendLine(data.TestCommand);
+        builder.AppendLine();
+      }
+      File.WriteAllText(path, builder.ToString());
     }
 
     private void ChangeTheme(string? obj)
@@ -133,6 +175,8 @@ namespace RegressionTestCollector.ViewModel
     public ICommand ChangePythonCommandCommand { get; }
 
     public ICommand ChangeThemeCommand { get; }
+
+    public ICommand CreatePrintCommand { get; }
 
     private void ChangePythonCommand(string? obj)
     {

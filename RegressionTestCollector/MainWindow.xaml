@@ -65,7 +65,9 @@
 
       <Menu Style="{StaticResource MenuStyle}" IsEnabled="{Binding IsLoadingData, Converter={StaticResource InverseBooleanConverter}}">
         <MenuItem Header="{x:Static properties:Strings.MenuLoad}" Command="{Binding LoadRegressionTestsCommand}" />
-
+        <MenuItem Header="{x:Static properties:Strings.MenuExport}">
+          <MenuItem Header="{x:Static properties:Strings.MenuTextReport}" Command="{Binding CreatePrintCommand}"/>
+        </MenuItem>
         <MenuItem Header="{x:Static properties:Strings.MenuOptions}">
           <MenuItem Header="{x:Static properties:Strings.MenuSelectCollectingMethod}">
             <MenuItem Header="{x:Static properties:Strings.MenuCollectingMethodPythonName}" 
@@ -125,14 +127,14 @@
                        ConverterParameter={x:Static properties:Strings.MenuThemeLight}}" 
                       Command="{Binding ChangeThemeCommand}"
                       CommandParameter="{x:Static properties:Strings.MenuThemeLight}"
-                      behaviors:MenuGroup.GroupName="SelectedTheme"></MenuItem>
+                      behaviors:MenuGroup.GroupName="SelectedTheme"/>
             <MenuItem Header="{x:Static properties:Strings.MenuThemeDark}" IsCheckable="True"
                       IsChecked="{Binding MenuViewModel.SelectedTheme, Mode=OneWay ,
                         Converter={StaticResource MenuItemSelectionMatchConverter}, 
                         ConverterParameter={x:Static properties:Strings.MenuThemeDark}}"  
                       Command="{Binding ChangeThemeCommand}"
                       CommandParameter="{x:Static properties:Strings.MenuThemeDark}"
-                      behaviors:MenuGroup.GroupName="SelectedTheme"></MenuItem>
+                      behaviors:MenuGroup.GroupName="SelectedTheme"/>
           </MenuItem>
           <MenuItem Header="{x:Static properties:Strings.HighlighterMenu}">
             <MenuItem Header="{x:Static properties:Strings.HighlighterIsTurnedOffOptionLabel}" IsCheckable="True" 
@@ -146,6 +148,7 @@
       <Menu Grid.Column="1" Style="{StaticResource MenuStyle}">
         <MenuItem Header="{x:Static properties:Strings.MenuShowOutput}" IsCheckable="True" IsChecked="{Binding OutputControlViewModel.IsVisible}" />
       </Menu>
+
     </Grid>
     <StatusBar Grid.Row="2">
       <StatusBarItem HorizontalContentAlignment="Stretch">

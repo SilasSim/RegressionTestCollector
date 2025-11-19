@@ -146,6 +146,8 @@ namespace RegressionTestCollector.CollectingStrategies
         return result;
       }
 
+      CheckAndSetLinuxSupport(configPath, configDataObject);
+      
       try
       {
         // running python tests
@@ -174,7 +176,8 @@ namespace RegressionTestCollector.CollectingStrategies
           {
             InputFile = regressionTest.Sourcefile,
             OutputFile = regressionTest.Outfile,
-            Scenario = StringUtils.GetArgumentFromString(regressionTest.GetCommandStringForPythonScript(), "scenario")
+            Scenario = StringUtils.GetArgumentFromString(regressionTest.GetCommandStringForPythonScript(), "scenario"),
+            IsSupportedByLinux = regressionTest.IsSupportedInLinux
           });
         }
       }
@@ -186,6 +189,25 @@ namespace RegressionTestCollector.CollectingStrategies
 
       File.Delete(pythonScriptCopy);
       return result;
+    }
+
+    private void CheckAndSetLinuxSupport(string configPath, RegressionTestConfigDataObject configDataObject)
+    {
+      var dir = Path.GetDirectoryName(configPath);
+      if (dir is null) return;
+      var linuxConfPath = Path.Combine(dir, configPath.Replace(".config", "_Linux.config"));
+      if (!File.Exists(linuxConfPath)) return;
+      var data = File.ReadAllText(linuxConfPath);
+      var parsedData = mParser.ConfigParser.Parse(data);
+
+      foreach (var regressionTestConfiguration in configDataObject.RegressionTests)
+      {
+        if (parsedData.RegressionTests.Select(x => x.Name)
+            .Contains(regressionTestConfiguration.Name))
+        {
+          regressionTestConfiguration.IsSupportedInLinux = true;
+        }
+      }
     }
 
     /// <summary>
