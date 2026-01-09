@@ -75,7 +75,7 @@ namespace RegressionTestCollectorTests.ViewModel
 
 
     [Test]
-    public void GivenLoadingDataText_WhenValueIsSet_ThenCanBeRetrieved()
+    public void WhenLoadingDataTextIsSet_ThenValueBeRetrieved()
     {
       mSut.LoadingDataText = "Test text";
       Assert.That(mSut.LoadingDataText, Is.EqualTo("Test text"));
@@ -163,7 +163,7 @@ namespace RegressionTestCollectorTests.ViewModel
     #region PropertyChanged Tests
 
     [Test]
-    public void GivenLoadingDataText_WhenValueIsChanged_ThenTriggersPropertyChangedNotification()
+    public void WhenLoadingDataTextChanges_ThenTriggersPropertyChangedNotification()
     {
       var eventFired = false;
       mSut.PropertyChanged += (sender, e) =>
@@ -177,7 +177,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void GivenIsLoadingData_WhenValueIsChanged_ThenTriggersPropertyChangedNotification()
+    public void WhenIsLoadingDataIsChanged_ThenTriggersPropertyChangedNotification()
     {
       var eventFired = false;
       mSut.PropertyChanged += (sender, e) =>
@@ -195,7 +195,7 @@ namespace RegressionTestCollectorTests.ViewModel
     #region LoadRegressionTests Tests
 
     [Test]
-    public void GivenLoadRegressionTestsCommand_WhenConstructorIsCalled_ThencanExecuteIsTrue()
+    public void WhenConstructorIsCalled_ThenLoadRegressionTestsCommandCanExecute()
     {
       Assert.That(mSut.LoadRegressionTestsCommand.CanExecute(null), Is.True);
     }
@@ -333,10 +333,17 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void GivenCancelLoadingCommand_WhenIsLoadingDataIsSetToTrue_ThenCanexecuteIstrue()
+    public void WhenIsLoadingDataIsSetToTrue_ThenCancelLoadingCommandCanExecute()
     {
       mSut.IsLoadingData = true;
       Assert.That(mSut.CancelLoadingCommand.CanExecute(null), Is.True);
+    }
+
+    [Test]
+    public void WhenIsLoadingDataIsSetToTrue_ThenCancelLoadingCommandCannotExecute()
+    {
+      mSut.IsLoadingData = false;
+      Assert.That(mSut.CancelLoadingCommand.CanExecute(null), Is.False);
     }
 
     [Test]

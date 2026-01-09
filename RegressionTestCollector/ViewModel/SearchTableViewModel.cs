@@ -40,20 +40,20 @@ namespace RegressionTestCollector.ViewModel
       {
         Interval = mFilterTimerInterval
       };
-      mFilterTimer.Tick += OnFilterTimerTick;
+      mFilterTimer.Tick += FilterTimerTick;
       SourceData = [];
-      SourceData.CollectionChanged += OnSourceDataCollectionChanged;
-      GroupFilterViewModel.FilterChanged += OnGroupFilterChanged;
+      SourceData.CollectionChanged += SourceDataCollectionChanged;
+      GroupFilterViewModel.FilterChanged += GroupFilterChanged;
 
       Highlighter = new Highlighter()
       {
         IsTurnedOff = SettingsService.HighlighterSettings.IsTurnedOff
       };
 
-      Highlighter.PropertyValueChanged += OnHighlighterPropertyChange;
+      Highlighter.PropertyValueChanged += HighlighterPropertyChanged;
     }
 
-    private void OnHighlighterPropertyChange(object? sender, PropertyValueChangedEventArgs e)
+    private void HighlighterPropertyChanged(object? sender, PropertyValueChangedEventArgs e)
     {
       if (e.NewValue is bool newVal && e.PropertyName == nameof(Highlighter.IsTurnedOff))
       {
@@ -169,7 +169,7 @@ namespace RegressionTestCollector.ViewModel
     }
 
 
-    private void OnGroupFilterChanged(object? sender, EventArgs e)
+    private void GroupFilterChanged(object? sender, EventArgs e)
     {
       Filter();
     }
@@ -180,7 +180,7 @@ namespace RegressionTestCollector.ViewModel
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void OnFilterTimerTick(object? sender, EventArgs e)
+    private void FilterTimerTick(object? sender, EventArgs e)
     {
       mFilterTimer.Stop();
       Filter();
@@ -229,7 +229,7 @@ namespace RegressionTestCollector.ViewModel
       {
         if (SetField(ref mSourceData, value))
         {
-          mSourceData.CollectionChanged += OnSourceDataCollectionChanged;
+          mSourceData.CollectionChanged += SourceDataCollectionChanged;
           FilteredData = CollectionViewSource.GetDefaultView(mSourceData);
           FilteredData.Filter = FilterPredicate;
           FilteredData.Refresh();
@@ -237,7 +237,7 @@ namespace RegressionTestCollector.ViewModel
       }
     }
 
-    private void OnSourceDataCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void SourceDataCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
       MatchCounter = new MatchCounter(mSourceData.Count, mSourceData.Count);
       UpdateGroupFilter();

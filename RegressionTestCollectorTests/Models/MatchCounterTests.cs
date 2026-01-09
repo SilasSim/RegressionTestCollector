@@ -55,13 +55,13 @@ namespace RegressionTestCollectorTests.Models
     #region MatchCounterText Property Tests
 
     [Test]
-    public void GivenMatchCounter_WhenAccessed_ReturnsFormattedText()
+    public void WhenMatchCounterTextIsAccessed_ThenReturnsFormattedText()
     {
       Assert.That(mSut.MatchCounterText, Is.EqualTo("5 / 10"));
     }
 
     [Test]
-    public void GivenMatchCounter_WhenVisibleCounterIsChanged_ThenMatchCounterTextIsUpdated()
+    public void WhenVisibleCounterIsChanged_ThenMatchCounterTextIsUpdated()
     {
       mSut.VisibleCounter = 8;
 
@@ -69,7 +69,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GivenMatchCounter_WhenTotalCounterIsChanged_ThenMatchCounterTextIsUpdated()
+    public void WhenTotalCounterIsChanged_ThenMatchCounterTextIsUpdated()
     {
       mSut.TotalCounter = 15;
 
@@ -77,7 +77,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GivenMatchCounter_WhenVisibleCounterAndTotalCounterAreChanged_ThenMatchCounterTextIsUpdated()
+    public void WhenVisibleCounterAndTotalCounterAreChanged_ThenMatchCounterTextIsUpdated()
     {
       mSut.VisibleCounter = 12;
       mSut.TotalCounter = 20;
@@ -144,7 +144,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GivenMatchCounter_WhenSettingSameValue_ThenDoesNotRaisePropertyChanged()
+    public void WhenSameValueIsSet_ThenDoesNotRaisePropertyChanged()
     {
       var changeCount = 0;
 

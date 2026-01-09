@@ -13,7 +13,7 @@ namespace RegressionTestCollector
   /// </summary>
   public partial class App : Application
   {
-  private ServiceProvider _serviceProvider;
+  private ServiceProvider? _serviceProvider;
     protected override void OnStartup(StartupEventArgs e)
     {
 

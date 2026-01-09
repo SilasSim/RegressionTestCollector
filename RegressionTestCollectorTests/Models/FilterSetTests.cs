@@ -121,7 +121,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GivenFilterElementWithTextAndChecckedFlag_WhenConstructorIsCalled_ThenSetsBothProperties()
+    public void GivenFilterElementWithTextAndCheckedFlag_WhenConstructorIsCalled_ThenSetsBothProperties()
     {
       var sut = new FilterElement("TestText", true);
 
@@ -134,7 +134,7 @@ namespace RegressionTestCollectorTests.Models
     #region Property Tests
 
     [Test]
-    public void GivenFilterElement_WhenIsCheckedIsToggled_ThenReflectsNewValue()
+    public void WhenIsCheckedIsToggled_ThenReflectsNewValue()
     {
       var sut = new FilterElement("Test");
 
