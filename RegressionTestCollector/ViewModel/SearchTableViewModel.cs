@@ -84,7 +84,7 @@ namespace RegressionTestCollector.ViewModel
 
         OutputControlViewModel.OutputList.Add(new OutputData(Resources.CollectingErrors.DebugCleanUpSuccess, OutputType.Success));
       }
-      catch (Exception e)
+      catch (Exception)
       {
         OutputControlViewModel.OutputList.Add(new OutputData(Resources.CollectingErrors.DebugCleanUpError, OutputType.Error));
       }
@@ -145,7 +145,7 @@ namespace RegressionTestCollector.ViewModel
             SettingsService.IsExeIncluded, SettingsService.IsWindows, SettingsService.IsDebugSet,
             SettingsService.IsVerboseSet);
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
           OutputControlViewModel.OutputList.Add(new OutputData(Resources.CollectingErrors.ErrorCreatingCopyCommandString));
         }
