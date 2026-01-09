@@ -54,14 +54,14 @@ namespace RegressionTestCollector.Controls
       this.UpdateInlines();
     }
 
-    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+    public new static readonly DependencyProperty TextProperty = DependencyProperty.Register(
       nameof(Text), typeof(string), typeof(HighlightTextBlock),
       new PropertyMetadata(default(string), OnHighlightChanged));
 
-    public string Text
+    public new string Text
     {
-      get { return (string)GetValue(TextProperty); }
-      set { SetValue(TextProperty, value); }
+      get => (string)GetValue(TextProperty);
+      set => SetValue(TextProperty, value);
     }
 
     public static readonly DependencyProperty HighlightProperty = DependencyProperty.Register(
@@ -70,8 +70,8 @@ namespace RegressionTestCollector.Controls
 
     public string Highlight
     {
-      get { return (string)GetValue(HighlightProperty); }
-      set { SetValue(HighlightProperty, value); }
+      get => (string)GetValue(HighlightProperty);
+      set => SetValue(HighlightProperty, value);
     }
 
     public static readonly DependencyProperty HighlightTurnedOffProperty = DependencyProperty.Register(
@@ -80,8 +80,8 @@ namespace RegressionTestCollector.Controls
 
     public bool HighlightTurnedOff
     {
-      get { return (bool)GetValue(HighlightTurnedOffProperty); }
-      set { SetValue(HighlightTurnedOffProperty, value); }
+      get => (bool)GetValue(HighlightTurnedOffProperty);
+      set => SetValue(HighlightTurnedOffProperty, value);
     }
 
     private static void OnHighlightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -92,7 +92,7 @@ namespace RegressionTestCollector.Controls
       }
     }
 
-    private static readonly Dictionary<string, string[]> mHightlightCache = new ();
+    private static readonly Dictionary<string, string[]> mHightlightCache = new();
     private void UpdateInlines()
     {
       this.Inlines.Clear();
@@ -104,7 +104,7 @@ namespace RegressionTestCollector.Controls
       }
 
       var highlights = StringUtils.ParseSearchTerms(Highlight, mHightlightCache);
-      var pattern = string.Join("|", highlights.Select(h => Regex.Escape(h)));
+      var pattern = string.Join("|", highlights.Select(Regex.Escape));
 
       if (String.IsNullOrEmpty(pattern))
       {

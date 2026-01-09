@@ -107,6 +107,18 @@
     </Setter>
   </Style>
 
+  <Style x:Key="VerticalSeparatorStyle" TargetType="Separator">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Separator">
+          <Grid Background="Transparent" SnapsToDevicePixels="True">
+            <Rectangle x:Name="Line" Width="1" HorizontalAlignment="Stretch" Fill="{DynamicResource Brush.ForegroundColor}"></Rectangle>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
   <Style x:Key="BorderStyle" TargetType="Border">
     <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"></Setter>
     <Setter Property="BorderThickness" Value="1"></Setter>
@@ -142,5 +154,9 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
+  </Style>
+
+  <Style TargetType="CheckBox" x:Key="BasicCheckBoxStyle">
+    <Setter Property="Foreground" Value="{DynamicResource Brush.ForegroundColor}"/>
   </Style>
 </ResourceDictionary>

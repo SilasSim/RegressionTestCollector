@@ -129,6 +129,39 @@
   <data name="GroupNameFilterControl" xml:space="preserve">
     <value>Group Filter</value>
   </data>
+  <data name="HelpCollectingStrategyBulletPoints" xml:space="preserve">
+    <value>C# Collecting Strategy is native to the Regression Test Collector and is the recommended option.|Python Collecting Strategy uses an external python script, which is deprecated at the moment.</value>
+  </data>
+  <data name="HelpCollectingStrategyHeader" xml:space="preserve">
+    <value>Selecting Collecting Strategy</value>
+  </data>
+  <data name="HelpCollectingStrategyIntroText" xml:space="preserve">
+    <value>You can choose between different Collecting Strategies in the Menu.</value>
+  </data>
+  <data name="HelpCommandStringBulletPoints" xml:space="preserve">
+    <value>Including the executable allows the command to be copied into a console.|Excluding the executable allows the command to be used as debug paramter in an IDE.|Selecting linux converts the paths to linux paths, so that the command can be run in WSL. If the compilers used change this feature may break and needs to be adjusted.|To run the command in verbose or debug mode us --debug and --verbose</value>
+  </data>
+  <data name="HelpCopyingCommandStringIntroText" xml:space="preserve">
+    <value>The command string can be copied through the table context menu. You can choose between different copy settings based on your needs.</value>
+  </data>
+  <data name="HelpHowToLoadData" xml:space="preserve">
+    <value>Use the 'Load...' button and select a folder in which regression tests are. It will scan the folder including subdirectories.</value>
+  </data>
+  <data name="HelpHowToLoadDataHeader" xml:space="preserve">
+    <value>Loading Data</value>
+  </data>
+  <data name="HelpHowToPrepareDebugSessionHeader" xml:space="preserve">
+    <value>Preparing a debug session for HTTP-Tests</value>
+  </data>
+  <data name="HelpHowToUseCommandString" xml:space="preserve">
+    <value>Copying the Command String</value>
+  </data>
+  <data name="HelpHttpServerSteps" xml:space="preserve">
+    <value>Select prepare test for debug session in the context menu of a test.|Start a Http-Server in debug mode with your IDE.|After the server is started run the python script with _RTC suffix in debug mode.|Close the debug session after you are done debugging. This will clean up the debug file.</value>
+  </data>
+  <data name="HelpTitle" xml:space="preserve">
+    <value>How to use the Regression Test Collector - CANdelaStudio Server Edition</value>
+  </data>
   <data name="HighlighterIsTurnedOffOptionLabel" xml:space="preserve">
     <value>Turned off</value>
   </data>

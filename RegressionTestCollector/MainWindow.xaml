@@ -141,9 +141,7 @@
                       IsChecked="{Binding SearchTableViewModel.Highlighter.IsTurnedOff}"></MenuItem>
           </MenuItem>
         </MenuItem>
-        <MenuItem Header="{x:Static properties:Strings.MenuHelp}">
-          <MenuItem Header="{x:Static properties:Strings.MenuHelpNotImplemented}" IsCheckable="True" IsChecked="False"></MenuItem>
-        </MenuItem>
+        <MenuItem Header="{x:Static properties:Strings.MenuHelp}" Click="HelpButtonClicked"/>
       </Menu>
       <Menu Grid.Column="1" Style="{StaticResource MenuStyle}">
         <MenuItem Header="{x:Static properties:Strings.MenuShowOutput}" IsCheckable="True" IsChecked="{Binding OutputControlViewModel.IsVisible}" />

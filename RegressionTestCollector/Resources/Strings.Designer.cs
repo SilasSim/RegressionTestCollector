@@ -97,6 +97,105 @@ namespace RegressionTestCollector.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to C# Collecting Strategy is native to the Regression Test Collector and is the recommended option.|Python Collecting Strategy uses an external python script, which is deprecated at the moment..
+        /// </summary>
+        public static string HelpCollectingStrategyBulletPoints {
+            get {
+                return ResourceManager.GetString("HelpCollectingStrategyBulletPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selecting Collecting Strategy.
+        /// </summary>
+        public static string HelpCollectingStrategyHeader {
+            get {
+                return ResourceManager.GetString("HelpCollectingStrategyHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can choose between different Collecting Strategies in the Menu..
+        /// </summary>
+        public static string HelpCollectingStrategyIntroText {
+            get {
+                return ResourceManager.GetString("HelpCollectingStrategyIntroText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Including the executable allows the command to be copied into a console.|Excluding the executable allows the command to be used as debug paramter in an IDE.|Selecting linux converts the paths to linux paths, so that the command can be run in WSL. If the compilers used change this feature may break and needs to be adjusted.|To run the command in verbose or debug mode us --debug and --verbose.
+        /// </summary>
+        public static string HelpCommandStringBulletPoints {
+            get {
+                return ResourceManager.GetString("HelpCommandStringBulletPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The command string can be copied through the table context menu. You can choose between different copy settings based on your needs..
+        /// </summary>
+        public static string HelpCopyingCommandStringIntroText {
+            get {
+                return ResourceManager.GetString("HelpCopyingCommandStringIntroText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the &apos;Load...&apos; button and select a folder in which regression tests are. It will scan the folder including subdirectories..
+        /// </summary>
+        public static string HelpHowToLoadData {
+            get {
+                return ResourceManager.GetString("HelpHowToLoadData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading Data.
+        /// </summary>
+        public static string HelpHowToLoadDataHeader {
+            get {
+                return ResourceManager.GetString("HelpHowToLoadDataHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing a debug session for HTTP-Tests.
+        /// </summary>
+        public static string HelpHowToPrepareDebugSessionHeader {
+            get {
+                return ResourceManager.GetString("HelpHowToPrepareDebugSessionHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copying the Command String.
+        /// </summary>
+        public static string HelpHowToUseCommandString {
+            get {
+                return ResourceManager.GetString("HelpHowToUseCommandString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select prepare test for debug session in the context menu of a test.|Start a Http-Server in debug mode with your IDE.|After the server is started run the python script with _RTC suffix in debug mode.|Close the debug session after you are done debugging. This will clean up the debug file..
+        /// </summary>
+        public static string HelpHttpServerSteps {
+            get {
+                return ResourceManager.GetString("HelpHttpServerSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How to use the Regression Test Collector - CANdelaStudio Server Edition.
+        /// </summary>
+        public static string HelpTitle {
+            get {
+                return ResourceManager.GetString("HelpTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Turned off.
         /// </summary>
         public static string HighlighterIsTurnedOffOptionLabel {

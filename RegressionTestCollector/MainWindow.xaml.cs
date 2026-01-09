@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using RegressionTestCollector.Controls;
 using RegressionTestCollector.ViewModel;
 
 namespace RegressionTestCollector
@@ -33,6 +34,25 @@ namespace RegressionTestCollector
           }
         };
       }
+    }
+
+    private void HelpButtonClicked(object sender, RoutedEventArgs e)
+    {
+      var window = new Window()
+      {
+        Content = new HelpView()
+        {
+          DataContext = new HelpViewModel()
+        },
+        Title = "Regression Test Collector Help",
+        Width = 800,
+        Height = 400,
+        Icon = this.Icon,
+        Background = this.Background,
+        Owner = this,
+        WindowStartupLocation = WindowStartupLocation.CenterOwner
+      };
+      window.Show();
     }
   }
 }
