@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.DataCollection;
-using Moq;
-using NUnit.Framework;
-using RegressionTestCollector.CollectingStrategies;
+﻿using System.Collections.Specialized;
 using RegressionTestCollector.Models;
-using RegressionTestCollector.Resources;
-using RegressionTestCollector.Themes;
-using RegressionTestCollector.Utils;
 using RegressionTestCollector.ViewModel;
 using RegressionTestCollectorTests.TestUtils;
 
@@ -38,26 +24,26 @@ namespace RegressionTestCollectorTests.ViewModel
     #region Constructor Tests
 
     [Test]
-    public void Constructor_InitializesChildVMs()
+    public void WhenConstructorIsCalled_ThenInitializesChildViewModels()
     {
       Assert.That(mSut.OutputControlViewModel, Is.Not.Null);
       Assert.That(mSut.GroupFilterViewModel, Is.Not.Null);
     }
 
     [Test]
-    public void Constructor_InitializesGroupFilterViewModel()
+    public void WhenConstructorIsCalled_ThenInitializesGroupFilterViewModel()
     {
       Assert.That(mSut.GroupFilterViewModel.Name, Is.EqualTo("Group Filter"));
     }
 
     [Test]
-    public void Constructor_InitializesEmptySourceData()
+    public void WhenConstructorIsCalled_ThenSourceDataIsEmpty()
     {
       Assert.That(mSut.SourceData, Is.Empty);
     }
 
     [Test]
-    public void Constructor_InitializesCommands()
+    public void WhenConstructorIsCalled_ThenInitializesAllCommands()
     {
       Assert.That(mSut.CopyCommandStringCommand, Is.Not.Null);
       Assert.That(mSut.PrepareForDebugSessionCommand, Is.Not.Null);
@@ -70,7 +56,7 @@ namespace RegressionTestCollectorTests.ViewModel
 
 
     [Test]
-    public void SourceData_WhenItemAdded_TriggersCollectionChanged()
+    public void GivenSourceData_WhenItemIsAdded_ThenTriggersCollectionChangedEvent()
     {
       bool eventFired = false;
       NotifyCollectionChangedEventArgs? eventArgs = null;
@@ -91,35 +77,35 @@ namespace RegressionTestCollectorTests.ViewModel
     #region FilterItems Tests
 
     [Test]
-    public void FilteredItems_WhenNoFilter_ShowsAllSourceData()
+    public void GivenNoFilter_WhenFilterIsApplied_ThenShowsAllSourceData()
     {
       CreateAndSetTestData();
 
-      Assert.That(mSut.FilteredData.Cast<object>().Count(), Is.EqualTo(mSut.SourceData.Count));
+      Assert.That(mSut?.FilteredData?.Cast<object>().Count(), Is.EqualTo(mSut?.SourceData.Count));
     }
 
     [Test]
-    public void FilteredItems_WithTextFilter_ShowsMatchingItems()
+    public void GivenTextFilter_WhenFilterIsApplied_ThenShowsMatchingItems()
     {
       CreateAndSetTestData();
       mSut.SearchString = "Command4";
       mSut.Filter();
-      Assert.That(mSut.FilteredData.Cast<object>().Count(), Is.EqualTo(1));
+      Assert.That(mSut?.FilteredData?.Cast<object>().Count(), Is.EqualTo(1));
     }
 
     [Test]
-    public void FilteredItems_WithGroupFilter_ShowsOnlyMatchingGroups()
+    public void GivenGroupFilter_WhenFilterIsApplied_ThenShowsOnlyMatchingGroups()
     {
       CreateAndSetTestData();
       mSut.GroupFilterViewModel.FilterSet[1].IsChecked = true;
       mSut.GroupFilterViewModel.UpdateFiltering();
       Assert.That(mSut.GroupFilterViewModel.GetActiveGroupFilter()[0], Is.EqualTo("Group2"));
       mSut.Filter();
-      Assert.That(mSut.FilteredData.Cast<object>().Count(), Is.EqualTo(2));
+      Assert.That(mSut?.FilteredData?.Cast<object>().Count(), Is.EqualTo(2));
     }
 
     [Test]
-    public void FilteredItems_WithCombinedFilters_ShowsCorrectSubset()
+    public void GivenTextAndGroupFilter_WhenFilterIsApplied_ThenShowsCorrectSubset()
     {
       CreateAndSetTestData();
       mSut.GroupFilterViewModel.FilterSet[1].IsChecked = true;
@@ -127,14 +113,14 @@ namespace RegressionTestCollectorTests.ViewModel
       Assert.That(mSut.GroupFilterViewModel.GetActiveGroupFilter()[0], Is.EqualTo("Group2"));
       mSut.SearchString = "Command3";
       mSut.Filter();
-      Assert.That(mSut.FilteredData.Cast<object>().Count(), Is.EqualTo(1));
+      Assert.That(mSut?.FilteredData?.Cast<object>().Count(), Is.EqualTo(1));
     }
 
     [Test]
-    public void FilteredItems_WhenSourceDataChanges_UpdatesAutomatically()
+    public void GivenSourceDataChanges_WhenFilterIsApplied_ThenUpdatesFilteredItemsAutomatically()
     {
       CreateAndSetTestData();
-      Assert.That(mSut.FilteredData.Cast<object>().Count(), Is.EqualTo(5));
+      Assert.That(mSut?.FilteredData?.Cast<object>().Count(), Is.EqualTo(5));
       mSut.SourceData.Add(new RegressionTestViewModel(new RegressionTestDataObject("Test")));
       Assert.That(mSut.FilteredData.Cast<object>().Count(), Is.EqualTo(6));
     }
@@ -142,7 +128,7 @@ namespace RegressionTestCollectorTests.ViewModel
     #endregion
 
     [Test]
-    public void CopyCommandString_EmptyCopyString_AddsErrorMessageToOutput()
+    public void GivenEmptyCommandString_WhenCopyCommandStringIsCalled_ThenAddsErrorMessageToOutput()
     {
       mSut.CopyCommandString(new RegressionTestViewModel(new RegressionTestDataObject("Test1", folderPath:"Test")));
       Assert.That(mSut.OutputControlViewModel.OutputList, Has.Count.GreaterThan(1));

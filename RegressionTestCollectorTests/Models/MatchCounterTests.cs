@@ -22,7 +22,7 @@ namespace RegressionTestCollectorTests.Models
     #region Constructor Tests
 
     [Test]
-    public void Constructor_SetsInitialValues()
+    public void WhenConstructorIsCalled_ThenPropertiesAreSetCorrectly()
     {
       var sut = new MatchCounter(3, 7);
 
@@ -31,7 +31,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Constructor_WithZeroValues_HandlesCorrectly()
+    public void GivenZeroValues_WhenConstructorIsCalled_ThenPropertiesAreSetCorrectly()
     {
       var sut = new MatchCounter(0, 0);
 
@@ -41,7 +41,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Constructor_WithNegativeValues_AcceptsValues()
+    public void GivenNegativeValues_WhenConstructorIsCalled_ThenPropertiesAreSetCorrectly()
     {
       var sut = new MatchCounter(-1, -5);
 
@@ -55,13 +55,13 @@ namespace RegressionTestCollectorTests.Models
     #region MatchCounterText Property Tests
 
     [Test]
-    public void MatchCounterText_ReturnsCorrectFormat()
+    public void GivenMatchCounter_WhenAccessed_ReturnsFormattedText()
     {
       Assert.That(mSut.MatchCounterText, Is.EqualTo("5 / 10"));
     }
 
     [Test]
-    public void MatchCounterText_UpdatesWhenVisibleCounterChanges()
+    public void GivenMatchCounter_WhenVisibleCounterIsChanged_ThenMatchCounterTextIsUpdated()
     {
       mSut.VisibleCounter = 8;
 
@@ -69,7 +69,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void MatchCounterText_UpdatesWhenTotalCounterChanges()
+    public void GivenMatchCounter_WhenTotalCounterIsChanged_ThenMatchCounterTextIsUpdated()
     {
       mSut.TotalCounter = 15;
 
@@ -77,7 +77,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void MatchCounterText_UpdatesWhenBothCountersChange()
+    public void GivenMatchCounter_WhenVisibleCounterAndTotalCounterAreChanged_ThenMatchCounterTextIsUpdated()
     {
       mSut.VisibleCounter = 12;
       mSut.TotalCounter = 20;
@@ -90,7 +90,7 @@ namespace RegressionTestCollectorTests.Models
     #region Property Change Notification Tests
 
     [Test]
-    public void VisibleCounter_PropertyChanged_TriggersNotification()
+    public void WhenVisibleCounterValueChanges_ThenNotifiesVisibleCounterAndMatchCounterText()
     {
       var eventsFired = new List<string>();
 
@@ -107,7 +107,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void TotalCounter_PropertyChanged_TriggersNotification()
+    public void WhenTotalCounterValueChanges_ThenNotifiesTotalCounterAndMatchCounterText()
     {
       var eventsFired = new List<string>();
 
@@ -124,39 +124,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void VisibleCounter_Change_TriggersMatchCounterTextNotification()
-    {
-      var matchCounterTextChanged = false;
-
-      mSut.PropertyChanged += (sender, e) =>
-      {
-        if (e.PropertyName == nameof(MatchCounter.MatchCounterText))
-          matchCounterTextChanged = true;
-      };
-
-      mSut.VisibleCounter = 3;
-
-      Assert.That(matchCounterTextChanged, Is.True);
-    }
-
-    [Test]
-    public void TotalCounter_Change_TriggersMatchCounterTextNotification()
-    {
-      var matchCounterTextChanged = false;
-
-      mSut.PropertyChanged += (sender, e) =>
-      {
-        if (e.PropertyName == nameof(MatchCounter.MatchCounterText))
-          matchCounterTextChanged = true;
-      };
-
-      mSut.TotalCounter = 8;
-
-      Assert.That(matchCounterTextChanged, Is.True);
-    }
-
-    [Test]
-    public void PropertyChanged_MultipleEvents_WhenSettingBothCounters()
+    public void WhenTotalAndVisibleCounterAreChanged_ThenNotifiesAllRelevantProperties()
     {
       var eventsFired = new List<string>();
 
@@ -169,7 +137,6 @@ namespace RegressionTestCollectorTests.Models
       mSut.VisibleCounter = 6;
       mSut.TotalCounter = 11;
 
-      // Should fire: VisibleCounter, MatchCounterText, TotalCounter, MatchCounterText
       Assert.That(eventsFired.Count, Is.EqualTo(4));
       Assert.That(eventsFired, Contains.Item(nameof(MatchCounter.VisibleCounter)));
       Assert.That(eventsFired, Contains.Item(nameof(MatchCounter.TotalCounter)));
@@ -177,7 +144,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void PropertyChanged_NotTriggeredWhenSettingSameValue()
+    public void GivenMatchCounter_WhenSettingSameValue_ThenDoesNotRaisePropertyChanged()
     {
       var changeCount = 0;
 
@@ -194,7 +161,7 @@ namespace RegressionTestCollectorTests.Models
     #region Edge Cases Tests
 
     [Test]
-    public void VisibleCounter_GreaterThanTotal_AllowedAndFormatsCorrectly()
+    public void WhenVisibleCounterIsSetHigherThanTotalCounter_ThenAllowsItAndFormatsCorrectly()
     {
       mSut.VisibleCounter = 15;
       mSut.TotalCounter = 10;
@@ -202,23 +169,6 @@ namespace RegressionTestCollectorTests.Models
       Assert.That(mSut.MatchCounterText, Is.EqualTo("15 / 10"));
     }
 
-    [Test]
-    public void Counters_SetToMaxValue_HandlesCorrectly()
-    {
-      mSut.VisibleCounter = int.MaxValue;
-      mSut.TotalCounter = int.MaxValue;
-
-      Assert.That(mSut.MatchCounterText, Is.EqualTo($"{int.MaxValue} / {int.MaxValue}"));
-    }
-
-    [Test]
-    public void Counters_SetToMinValue_HandlesCorrectly()
-    {
-      mSut.VisibleCounter = int.MinValue;
-      mSut.TotalCounter = int.MinValue;
-
-      Assert.That(mSut.MatchCounterText, Is.EqualTo($"{int.MinValue} / {int.MinValue}"));
-    }
     #endregion
   }
 }

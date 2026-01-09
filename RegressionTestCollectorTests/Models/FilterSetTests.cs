@@ -22,7 +22,7 @@ namespace RegressionTestCollectorTests.Models
     #region FilterSet Add Method Tests
 
     [Test]
-    public void Add_NewElement_AddsToCollection()
+    public void GivenNewElement_WhenElementIsAdded_ThenElementIsAddedToCollection()
     {
       var element = new FilterElement("TestFilter");
 
@@ -34,7 +34,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Add_MultipleUniqueElements_AddsAll()
+    public void GivenMultipleUniqueElements_WhenElementsAreAdded_ThenAllElementsAreAdded()
     {
       var element1 = new FilterElement("Filter1");
       var element2 = new FilterElement("Filter2");
@@ -51,7 +51,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Add_DuplicateElement_DoesNotAdd()
+    public void GivenElement_WhenElementWithSameTextIsAdded_ThenDuplicateElementIsNotAdded()
     {
       var element1 = new FilterElement("SameText");
       var element2 = new FilterElement("SameText");
@@ -64,21 +64,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Add_SameTextDifferentObjects_DoesNotAdd()
-    {
-      var element1 = new FilterElement("DuplicateText");
-      var element2 = new FilterElement("DuplicateText");
-
-      mSut.Add(element1);
-      mSut.Add(element2);
-
-      Assert.That(mSut.Count, Is.EqualTo(1));
-      Assert.That(mSut[0], Is.EqualTo(element1));
-      Assert.That(mSut[0], Is.Not.EqualTo(element2));
-    }
-
-    [Test]
-    public void Add_CaseSensitive_AddsBothElements()
+    public void GivenElement_WhenNewElementWithSameTestButDifferentCapitalizationIsAdded_ThenNewElementIsAdded()
     {
       var element1 = new FilterElement("filter");
       var element2 = new FilterElement("Filter");
@@ -92,7 +78,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Add_NullText_HandlesGracefully()
+    public void GivenElementWithNullText_WhenElementIsAdded_ThenElementIsAddedToCollection()
     {
       var element = new FilterElement(null!);
 
@@ -103,7 +89,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Add_WithWhitespace_TreatsAsUnique()
+    public void GivenElementsWithSameTextButWhitespace_WhenAdded_ThenTreatsAsUnique()
     {
       var element1 = new FilterElement("filter");
       var element2 = new FilterElement(" filter ");
@@ -126,7 +112,7 @@ namespace RegressionTestCollectorTests.Models
     #region Constructor Tests
 
     [Test]
-    public void Constructor_WithTextOnly_SetsTextAndDefaultChecked()
+    public void GivenFilterElementWithOnlyText_WhenConstructorIsCalled_ThenSetsTextAndDefaultsCheckedToFalse()
     {
       var sut = new FilterElement("TestText");
 
@@ -135,7 +121,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Constructor_WithTextAndChecked_SetsBothProperties()
+    public void GivenFilterElementWithTextAndChecckedFlag_WhenConstructorIsCalled_ThenSetsBothProperties()
     {
       var sut = new FilterElement("TestText", true);
 
@@ -148,7 +134,7 @@ namespace RegressionTestCollectorTests.Models
     #region Property Tests
 
     [Test]
-    public void IsChecked_CanBeToggled()
+    public void GivenFilterElement_WhenIsCheckedIsToggled_ThenReflectsNewValue()
     {
       var sut = new FilterElement("Test");
 

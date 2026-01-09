@@ -25,13 +25,13 @@ namespace RegressionTestCollectorTests.ViewModel
 
 
     [Test]
-    public void Constructor_SetsEmptyOutputList()
+    public void WhenConstructorIsCalled_ThenOutputListIsEmpty()
     {
       Assert.That(mSut.OutputList, Has.Count.EqualTo(0));
     }
 
     [Test]
-    public void ClearListCommand_ClearsOutputList()
+    public void GivenOutputListWithItems_WhenClearListCommandIsExecuted_ThenClearsOutputList()
     {
       mSut.OutputList.Add(new OutputData("Test"));
       mSut.OutputList.Add(new OutputData("Test2"));
@@ -41,7 +41,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void ToggleVisibilityCommand_TogglesVisibility()
+    public void WhenToggleVisibilityCommandIsExecuted_ThenTogglesVisibility()
     {
       Assert.That(mSut.IsVisible, Is.False);
       mSut.ToggleVisibilityCommand.Execute(null);
@@ -51,7 +51,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void IsVisible_SetterFiresVisibilityChangedEvent()
+    public void GivenVisibilityChangedEvent_WhenIsVisibleIsSet_ThenVisibilityChangedIsFired()
     {
       var eventFired = false;
       mSut.VisibilityChanged += ((sender, obj) => eventFired = true);

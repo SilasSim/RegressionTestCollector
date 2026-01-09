@@ -25,13 +25,13 @@ namespace RegressionTestCollectorTests.ViewModel
 
 
     [Test]
-    public void Constructor_SetsName()
+    public void WhenConstructorIsCalled_ThenNameIsSet()
     {
       Assert.That(mSut.Name, Is.EqualTo("Test"));
     }
 
     [Test]
-    public void UnselectAll_UnchecksAllFilterElements()
+    public void GivenFilterSetWithCheckedElements_WhenUnselectAllIsExecuted_ThenUnchecksAllFilterElements()
     {
       mSut.FilterSet.Add(new FilterElement("el0", true));
       mSut.FilterSet.Add(new FilterElement("el1", true));
@@ -45,7 +45,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void FilterAllCommand_SetAllFilterElementsToSameIsCheckedValueAsFilterAllElement()
+    public void GivenFilterSetAndFilterAllElement_WhenFilterAllCommandIsExecuted_ThenSetsAllElementsToFilterAllElementState()
     {
       mSut.FilterSet.Add(new FilterElement("el0", true));
       mSut.FilterSet.Add(new FilterElement("el1", true));
@@ -64,7 +64,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void FilterGroupCommand_UpdatesActiveGroupFilter()
+    public void GivenFilterSetWithGroups_WhenFilterGroupCommandIsExecuted_ThenUpdatesActiveGroupFilter()
     {
       var eventFired = false;
       mSut.FilterChanged += (sender, e) => eventFired = true;
@@ -86,7 +86,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void FilterGroupCommand_TriggersFilterChangedEvent()
+    public void GivenFilterSet_WhenFilterGroupCommandIsExecuted_ThenTriggersFilterChangedEvent()
     {
       var eventCount = 0;
       mSut.FilterChanged += (sender, e) => eventCount++;

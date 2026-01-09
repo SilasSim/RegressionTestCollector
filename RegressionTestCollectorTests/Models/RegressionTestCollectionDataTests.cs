@@ -21,13 +21,13 @@ namespace RegressionTestCollectorTests.Models
 
 
     [Test]
-    public void EmptyErrorList_HasErrorReturnsFalse()
+    public void GivenEmptyErrorList_WhenHasErrorIsQueried_ThenReturnsFalse()
     {
       Assert.That(mSut.HasError, Is.False);
     }
 
     [Test]
-    public void Add_ErrorObject_HasErrorReturnsTrue()
+    public void GivenErrorObject_WhenIsAdded_ThenHasErrorReturnsTrue()
     {
       mSut.Errors.Add(new ErrorObject("TEST"));
 
@@ -37,7 +37,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Add_DataElement_HasErrorReturnsTrue()
+    public void GivenNoErrors_WhenDataElementIsAdded_HasErrorReturnsFalse()
     {
       mSut.Data.Add(new RegressionTestDataObject("TEST"));
 
@@ -47,7 +47,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void AddThenRemove_ErrorObject_HasErrorReturnsFalse()
+    public void GivenErrorObject_WhenIsAddedAndThenRemoved_ThenHasErrorReturnsFalse()
     {
       var error = new ErrorObject("TEST");
       mSut.Errors.Add(error);

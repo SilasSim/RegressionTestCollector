@@ -23,13 +23,13 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void Constructor_SetsCollectingStrategy()
+    public void WhenConstructorIsCalled_CollectingStrategyIsSet()
     {
       Assert.That(mSut.CollectingStrategy, Is.EqualTo(mTestStrategy));
     }
 
     [Test]
-    public void Collect_CallsStrategyWithCorrectCommand()
+    public void GivenPythonCommand_WhenCollectIsCalled_ThenStrategyIsUsingThePythonCommand()
     {
       mSut.Collect("python3");
 
@@ -38,7 +38,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void Collect_ReturnsStrategyResult()
+    public void WhenCollectIsCalled_ThenCollectOfTheStrategyIsCalled()
     {
       var expectedData = new RegressionTestCollectionData();
       expectedData.Errors.Add(new ErrorObject("ERROR"));
@@ -50,7 +50,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void ChangeCollectingStrategy_UpdatesCollectingStrategy()
+    public void GivenCollectringStrategy_WhenCollectingStrategyIsChanged_ThenSetsNewCollectingStrategy()
     {
       var newStrategy = new TestCollectingStrategy();
       mSut.ChangeCollectingStrategy(newStrategy);
@@ -59,9 +59,9 @@ namespace RegressionTestCollectorTests.CollectingStrategies
 
     private class TestCollectingStrategy : ICollectingStrategy
     {
-      public string LastPythonCommand { get; private set; }
+      public string? LastPythonCommand { get; private set; }
       public int CollectCount { get; private set; }
-      public RegressionTestCollectionData Testdata { get; set; }
+      public RegressionTestCollectionData? Testdata { get; set; }
       public RegressionTestCollectionData Collect(string pythonCommand)
       {
         LastPythonCommand = pythonCommand;

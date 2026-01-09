@@ -19,7 +19,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Constructor_SetsPropertiesCorrectly()
+    public void GivenEqualityTestConfiguration_WhenConstructorIsCalled_ThePropertiesAreSetCorrectly()
     {
       var sut = SetupEqualityTestConfiguration();
 
@@ -33,7 +33,35 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GetCommandStringForPythonScript_WithDefaultProperties_ReturnsEmptyString()
+    public void GivenFailTestConfiguration_WhenConstructorIsCalled_ThePropertiesAreSetCorrectly()
+    {
+      var sut = SetupFailTestConfiguration();
+
+      Assert.That(sut.Name, Is.EqualTo("TEST"));
+      Assert.That(sut.Kind, Is.EqualTo(RegressionTestKind.FailTest));
+      Assert.That(sut.Sourcefile, Is.EqualTo(String.Empty));
+      Assert.That(sut.Logfile, Is.EqualTo(String.Empty));
+      Assert.That(sut.Inifile, Is.EqualTo(String.Empty));
+      Assert.That(sut.Outfile, Is.EqualTo(String.Empty));
+      Assert.That(sut.AdditionalParameter, Is.Empty);
+    }
+
+    [Test]
+    public void GivenSuccessTestConfiguration_WhenConstructorIsCalled_ThePropertiesAreSetCorrectly()
+    {
+      var sut = SetupSuccessTestConfiguration();
+
+      Assert.That(sut.Name, Is.EqualTo("TEST"));
+      Assert.That(sut.Kind, Is.EqualTo(RegressionTestKind.SuccessTest));
+      Assert.That(sut.Sourcefile, Is.EqualTo(String.Empty));
+      Assert.That(sut.Logfile, Is.EqualTo(String.Empty));
+      Assert.That(sut.Inifile, Is.EqualTo(String.Empty));
+      Assert.That(sut.Outfile, Is.EqualTo(String.Empty));
+      Assert.That(sut.AdditionalParameter, Is.Empty);
+    }
+
+    [Test]
+    public void GivenEmptyProperties_WhenGetCommandStringForPythonScriptIsCalled_ThenReturnsEmptyString()
     {
       var sut = SetupEqualityTestConfiguration();
 
@@ -41,7 +69,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GetCommandStringForPythonScript_WithSetPropertiesAndEmptyAdditionalParameters_ReturnsCorrectString()
+    public void GivenSetPropertiesAndEmptyAdditionalParameters_WhenGetCommandStringForPythonScriptIsCalled_ThenReturnsCorrectString()
     {
       var sut = SetupEqualityTestConfiguration();
       sut.Inifile = "INIFILE";
@@ -54,7 +82,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GetCommandStringForPythonScript_WithDefaultPropertiesAndAdditionalParameters_ReturnsCorrectString()
+    public void GivenAdditionalParametersAndEmptyProperties_WhenGetCommandStringForPythonScriptIsCalled_ThenReturnsCorrectString()
     {
       var sut = SetupEqualityTestConfiguration();
       sut.AdditionalParameter["TEST1"] = "someString1";
@@ -64,7 +92,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void GetCommandStringForPythonScript_WithSetPropertiesAndAdditionalParameters_ReturnsCorrectString()
+    public void GivenSetPropertiesAndAdditionalParameters_WhenGetCommandStringForPythonScriptIsCalled_ThenReturnsCorrectString()
     {
       var sut = SetupEqualityTestConfiguration();
       sut.Inifile = "INIFILE";
@@ -77,7 +105,6 @@ namespace RegressionTestCollectorTests.Models
       Assert.That(sut.GetCommandStringForPythonScript(), Is.EqualTo(
         "-i \"SOURCE\" -o \"OUTFILE\" -g \"LOGFILE\" -ini \"INIFILE\" -TEST1 \"someString1\" -TEST2 \"someString2\""));
     }
-
 
 
     private RegressionTestConfiguration SetupEqualityTestConfiguration()

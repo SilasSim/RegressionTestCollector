@@ -26,7 +26,7 @@ namespace RegressionTestCollectorTests.Utils
     #region StringContainsAllStrings Tests
 
     [Test]
-    public void StringContainsAllStrings_StringContainsString_ReturnsTrue()
+    public void GivenSourceContainsSingleSearchString_WhenStringContainsAllStringsIsCalled_ThenReturnsTrue()
     {
       string suv = "A more or less long test string";
       Assert.IsTrue(StringUtils.StringContainsAllStrings(suv, "less"));
@@ -34,7 +34,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void StringContainsAllStrings_StringContainsMultipleString_ReturnsTrue()
+    public void GivenSourceContainsAllSearchStrings_WhenStringContainsAllStringsIsCalled_ThenReturnsTrue()
     {
       string suv = "A more or less long test string";
       Assert.IsTrue(StringUtils.StringContainsAllStrings(suv, "less", "more", "string"));
@@ -42,7 +42,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void StringContainsAllStrings_StringDoesNotContainMultipleString_ReturnsFalse()
+    public void GivenSourceMissingOneSearchString_WhenStringContainsAllStringsIsCalled_ThenReturnsFalse()
     {
       string suv = "A more or less long test string";
       Assert.IsFalse(StringUtils.StringContainsAllStrings(suv, "less", "more", "DoesntContainThis"));
@@ -50,7 +50,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void StringContainsAllStrings_StringDoesNotContainString_ReturnsFalse()
+    public void GivenSourceDoesNotContainSearchString_WhenStringContainsAllStringsIsCalled_ThenReturnsFalse()
     {
       string suv = "A more or less long test string";
       Assert.IsFalse(StringUtils.StringContainsAllStrings(suv, "TestString"));
@@ -58,7 +58,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void StringContainsAllStrings_StringContainsString_IgnoresCapitilizationAndReturnsTrue()
+    public void GivenSourceContainsSearchStringWithDifferentCase_WhenStringContainsAllStringsIsCalled_ThenReturnsTrue()
     {
       string suv = "A more or less long test string";
       Assert.IsTrue(StringUtils.StringContainsAllStrings(suv, "less"));
@@ -66,7 +66,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void StringContainsAllStrings_StringContainsMultipleString_IgnoresCapitilizationAndReturnsTrue()
+    public void GivenSourceContainsMultipleSearchStringsWithDifferentCase_WhenStringContainsAllStringsIsCalled_ThenReturnsTrue()
     {
       string suv = "A more or less long test string";
       Assert.IsTrue(StringUtils.StringContainsAllStrings(suv, "LESS", "mOrE", "sTRIng"));
@@ -78,7 +78,7 @@ namespace RegressionTestCollectorTests.Utils
     #region CreateCommandString Tests
 
     [Test]
-    public void CreateCommandString_WindowsAbsoluteWithExe_ReplacesRootDirWithAbsolutePath()
+    public void GivenWindowsAbsolutePathAndExeIncluded_WhenCreateCommandStringIsCalled_ThenReplacesRootDirWithAbsolutePath()
     {
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: true, isExeIncluded: true, isWindows: true);
 
@@ -90,12 +90,10 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_WindowsAbsoluteWithoutExe_ReplacesRootDirAndRemovesExe()
+    public void GivenWindowsAbsolutePathAndExeExcluded_WhenCreateCommandStringIsCalled_ThenReplacesRootDirAndRemovesExe()
     {
-      // Act
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: true, isExeIncluded: false, isWindows: true);
 
-      // Assert
       Assert.That(result, Is.EqualTo(
         "v23compat -e dextImport -r " +
         "D:\\dev\\CANdelaStudio\\candelastudio\\CANdelaStudioSETest\\Source\\ABS_ESP-Example.cdd " +
@@ -104,13 +102,11 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_WindowsRelativeWithExe_KeepsOnlyExeName()
+    public void GivenWindowsRelativePathAndExeIncluded_WhenCreateCommandStringIsCalled_ThenStripsDirectoryPathFromExe()
     {
-      // Act
       var result =
         StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: false, isExeIncluded: true, isWindows: true);
 
-      // Assert
       Assert.That(result, Is.EqualTo(
         "candelastudio-se.exe v23compat -e dextImport " +
         "-r ..\\..\\..\\..\\CANdelaStudioSETest\\Source\\ABS_ESP-Example.cdd " +
@@ -119,12 +115,10 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_WindowsRelativeWithoutExe_RemovesExeCompletely()
+    public void GivenWindowsRelativePathAndExeExcluded_WhenCreateCommandStringIsCalled_ThenRemovesExeCompletely()
     {
-      // Act
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: false, isExeIncluded: false, isWindows: true);
 
-      // Assert
       Assert.That(result, Is.EqualTo("" +
                                      "v23compat -e dextImport " +
                                      "-r ..\\..\\..\\..\\CANdelaStudioSETest\\Source\\ABS_ESP-Example.cdd " +
@@ -133,12 +127,10 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_LinuxAbsoluteWithExe_ConvertsToLinuxPath()
+    public void GivenLinuxAbsolutePathAndExeIncluded_WhenCreateCommandStringIsCalled_ThenConvertsToLinuxPath()
     {
-      // Act
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: true, isExeIncluded: true, isWindows: false);
 
-      // Assert
       Assert.That(result, Is.EqualTo("" +
                                      "/home/user/.vs/candelastudio/builds/linux-x86_64-clang-15-libstdc++11-release/deploy/bin/candelastudio-se " +
                                      "v23compat -e dextImport " +
@@ -148,12 +140,10 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_LinuxAbsoluteWithoutExe_ConvertsToLinuxPathAndRemovesExe()
+    public void GivenLinuxAbsolutePathAndExeExcluded_WhenCreateCommandStringIsCalled_ThenConvertsToLinuxPathAndRemovesExe()
     {
-      // Act
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: true, isExeIncluded: false, isWindows: false);
 
-      // Assert
       Assert.That(result, Is.EqualTo("" +
                                      "v23compat -e dextImport " +
                                      "-r /home/user/.vs/candelastudio/CANdelaStudioSETest/Source/ABS_ESP-Example.cdd " +
@@ -162,12 +152,10 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_LinuxRelativeWithExe_ConvertsToLinuxAndKeepsExeName()
+    public void GivenLinuxRelativePathAndExeIncluded_WhenCreateCommandStringIsCalled_ThenConvertsToLinuxAndKeepsExeName()
     {
-      // Act
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: false, isExeIncluded: true, isWindows: false);
 
-      // Assert
       Assert.That(result, Is.EqualTo("" +
                                      "candelastudio-se v23compat " +
                                      "-e dextImport " +
@@ -177,7 +165,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_LinuxRelativeWithoutExe_RemovesExeCompletely()
+    public void GivenLinuxRelativePathAndExeExcluded_WhenCreateCommandStringIsCalled_ThenRemovesExeCompletely()
     {
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: false, isExeIncluded: false, isWindows: false);
 
@@ -189,7 +177,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_LinuxConversion_ReplacesWindowsPlatformInAllPaths()
+    public void GivenLinux_WhenCreateCommandStringIsCalled_ThenReplacesWindowsPlatformInAllPaths()
     {
       var result = StringUtils.CreateCommandString(mSuvViewModel, isAbsPath: true, isExeIncluded: true, isWindows: false);
 
@@ -204,7 +192,7 @@ namespace RegressionTestCollectorTests.Utils
     #region GetArgumentFromString Tests
 
     [Test]
-    public void GetArgumentFromString_FindsArgumentWithEquals()
+    public void GivenCommandWithArgumentUsingEquals_WhenGetArgumentFromStringIsCalled_ThenReturnsCorrectValue()
     {
       string command = "myapp.exe -r input.txt -o=output.txt -v 1";
 
@@ -214,7 +202,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_FindsArgumentWithSpace()
+    public void GivenCommandWithArgumentUsingSpace_WhenGetArgumentFromStringIsCalled_ThenReturnsCorrectValue()
     {
       string command = "myapp.exe -r input.txt -o output.txt -v 1";
 
@@ -224,7 +212,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_ArgumentNotFound_ReturnsEmpty()
+    public void GivenCommandWithoutRequestedArgument_WhenGetArgumentFromStringIsCalled_ThenReturnsEmpty()
     {
       string command = "myapp.exe -r input.txt -o output.txt";
 
@@ -234,7 +222,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_QuotedArgument_RemovesQuotes()
+    public void GivenCommandWithDoubleQuotedArgument_WhenGetArgumentFromStringIsCalled_ThenRemovesQuotes()
     {
       string command = "myapp.exe -f \"file with spaces.txt\" -o output.txt";
 
@@ -244,7 +232,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_SingleQuotedArgument_RemovesQuotes()
+    public void GivenCommandWithSingleQuotedArgument_WhenGetArgumentFromStringIsCalled_ThenRemovesQuotes()
     {
       string command = "myapp.exe -f 'file with spaces.txt' -o output.txt";
 
@@ -254,7 +242,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_ArgumentWithEqualsAtEnd_ReturnsCorrectValue()
+    public void GivenCommandWithArgumentEqualsAtEnd_WhenGetArgumentFromStringIsCalled_ThenReturnsCorrectValue()
     {
       string command = "myapp.exe -r input.txt -version=1.2.3";
 
@@ -264,7 +252,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_EmptyValue_ReturnsEmpty()
+    public void GivenCommandWithEmptyArgumentValue_WhenGetArgumentFromStringIsCalled_ThenReturnsEmpty()
     {
       string command = "myapp.exe -empty \"\" -other value";
 
@@ -274,7 +262,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_ValueWithSpecialCharacters_ReturnsCorrectValue()
+    public void GivenCommandWithArgumentContainingSpecialCharacters_WhenGetArgumentFromStringIsCalled_ThenReturnsCorrectValue()
     {
       string command = "myapp.exe -path \"C:\\Program Files\\MyApp\\file.txt\" -config settings.xml";
 
@@ -285,7 +273,7 @@ namespace RegressionTestCollectorTests.Utils
 
 
     [Test]
-    public void GetArgumentFromString_CaseSensitiveArgumentName_DoesNotMatch()
+    public void GivenCommandWithDifferentCaseArgument_WhenGetArgumentFromStringIsCalled_ThenDoesNotMatch()
     {
       string command = "myapp.exe -Output file.txt -other value";
 
@@ -295,7 +283,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_ArgumentWithDashes_ReturnsCorrectValue()
+    public void GivenCommandWithArgumentContainingDashes_WhenGetArgumentFromStringIsCalled_ThenReturnsCorrectValue()
     {
       string command = "myapp.exe --long-option value-with-dashes --other test";
 
@@ -305,7 +293,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_EmptyCommand_ReturnsEmpty()
+    public void GivenEmptyCommand_WhenGetArgumentFromStringIsCalled_ThenReturnsEmpty()
     {
       string command = "";
 
@@ -315,7 +303,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_NullCommand_ThrowsArgumentNullException()
+    public void GivenNullCommand_WhenGetArgumentFromStringIsCalled_ThenThrowsArgumentNullException()
     {
       string? command = null;
 
@@ -323,7 +311,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void GetArgumentFromString_MultipleSpacesBetweenArguments_ReturnsCorrectValue()
+    public void GivenCommandWithMultipleSpaces_WhenGetArgumentFromStringIsCalled_ThenReturnsCorrectValue()
     {
       string command = "myapp.exe   -r    input.txt   -o     output.txt";
 
@@ -337,35 +325,35 @@ namespace RegressionTestCollectorTests.Utils
     #region StringContainsAllStrings Additional Tests
 
     [Test]
-    public void StringContainsAllStrings_EmptySourceString_ReturnsFalse()
+    public void GivenEmptySource_WhenStringContainsAllStringsIsCalled_ThenReturnsFalse()
     {
       string suv = "";
       Assert.IsFalse(StringUtils.StringContainsAllStrings(suv, "test"));
     }
 
     [Test]
-    public void StringContainsAllStrings_EmptySearchString_ReturnsTrue()
+    public void GivenNonEmptySourceAndEmptySearch_WhenStringContainsAllStringsIsCalled_ThenReturnsTrue()
     {
       string suv = "A test string";
       Assert.IsTrue(StringUtils.StringContainsAllStrings(suv, ""));
     }
 
     [Test]
-    public void StringContainsAllStrings_NullSearchString_ThrowsException()
+    public void GivenNullSearchString_WhenStringContainsAllStringsIsCalled_ThenThrowsArgumentNullException()
     {
       string suv = "A test string";
       Assert.Throws<ArgumentNullException>(() => StringUtils.StringContainsAllStrings(suv, null!));
     }
 
     [Test]
-    public void StringContainsAllStrings_SpecialCharacters_ReturnsTrue()
+    public void GivenSourceWithSpecialCharacters_WhenStringContainsAllStringsIsCalled_ThenReturnsTrue()
     {
       string suv = "File path: C:\\Program Files\\App-v1.2.3\\config.xml";
       Assert.IsTrue(StringUtils.StringContainsAllStrings(suv, "C:\\", "App-v1.2.3", ".xml"));
     }
 
     [Test]
-    public void StringContainsAllStrings_WhitespaceOnly_ReturnsTrue()
+    public void GivenWhitespaceSource_WhenStringContainsAllStringsIsCalled_ThenReturnsTrue()
     {
       string suv = "   ";
       Assert.IsTrue(StringUtils.StringContainsAllStrings(suv, " "));
@@ -376,7 +364,7 @@ namespace RegressionTestCollectorTests.Utils
     #region CreateCommandString Edge Cases
 
     [Test]
-    public void CreateCommandString_EmptyTestCommand_ReturnsProcessedEmptyString()
+    public void GivenEmptyTestCommand_WhenCreateCommandStringIsCalled_ThenReturnsEmptyString()
     {
       var testViewModel = new RegressionTestViewModel(new RegressionTestDataObject("Test")
       {
@@ -391,7 +379,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateCommandString_QuotedExecutablePath_HandlesCorrectly()
+    public void GivenQuotedExecutablePath_WhenCreateCommandStringIsCalled_ThenStripsFoldersAndKeepsQuotes()
     {
       var testViewModel = new RegressionTestViewModel(new RegressionTestDataObject("Test")
       {
@@ -412,42 +400,42 @@ namespace RegressionTestCollectorTests.Utils
 
 
     [Test]
-    public void ParseSearchTerms_EmptyInput_ReturnsEmptyArray()
+    public void GivenEmptyInput_WhenParseSearchTermsIsCalled_ThenReturnsEmptyArray()
     {
       var result = StringUtils.ParseSearchTerms("");
       Assert.IsEmpty(result);
     }
 
     [Test]
-    public void ParseSearchTerms_NullOrWhitespace_ReturnsEmptyArray()
+    public void GivenNullOrWhitespaceInput_WhenParseSearchTermsIsCalled_ThenReturnsEmptyArray()
     {
       var result = StringUtils.ParseSearchTerms("   ");
       Assert.IsEmpty(result);
     }
 
     [Test]
-    public void ParseSearchTerms_SimpleTerms_ReturnsSplitTerms()
+    public void GivenSimpleTerms_WhenParseSearchTermsIsCalled_ThenReturnsSplitTerms()
     {
-      var result = StringUtils.ParseSearchTerms("apple banana cherry");
-      Assert.That(new[] { "apple", "banana", "cherry" }, Is.EqualTo(result));
+      var result = StringUtils.ParseSearchTerms("a b c");
+      Assert.That(new[] { "a", "b", "c" }, Is.EqualTo(result));
     }
 
     [Test]
-    public void ParseSearchTerms_WithQuotes_ReturnsGroupedTerms()
+    public void GivenQuotedPhrases_WhenParseSearchTermsIsCalled_ThenReturnsGroupedTerms()
     {
-      var result = StringUtils.ParseSearchTerms("\"apple pie\" banana \"cherry tart\"");
-      Assert.That(new[] { "apple pie", "banana", "cherry tart" }, Is.EqualTo(result));
+      var result = StringUtils.ParseSearchTerms("\"a b\" c \"d e\"");
+      Assert.That(new[] { "a b", "c", "d e" }, Is.EqualTo(result));
     }
 
     [Test]
-    public void ParseSearchTerms_WithSingleQuote_ReplacesQuoteAndSplits()
+    public void GivenUnclosedQuote_WhenParseSearchTermsIsCalled_ThenReplacesQuoteAndSplits()
     {
-      var result = StringUtils.ParseSearchTerms("\"apple pie banana cherry");
-      Assert.That(new[] { "apple", "pie", "banana", "cherry" }, Is.EqualTo(result));
+      var result = StringUtils.ParseSearchTerms("\"a b c d");
+      Assert.That(new[] { "a", "b", "c", "d" }, Is.EqualTo(result));
     }
 
     [Test]
-    public void ParseSearchTerms_CacheHit_ReturnsCachedValue()
+    public void GivenCacheWithHit_WhenParseSearchTermsIsCalled_ThenReturnsCachedValue()
     {
       var cache = new Dictionary<string, string[]>
         {
@@ -459,7 +447,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void ParseSearchTerms_CacheMiss_AddsToCache()
+    public void GivenEmptyCacheAndNewTerms_WhenParseSearchTermsIsCalled_ThenAddsToCache()
     {
       var cache = new Dictionary<string, string[]>();
       var input = "new term";
@@ -470,7 +458,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void ParseSearchTerms_CacheClear_WhenLimitReached()
+    public void GivenCacheAtLimit_WhenParseSearchTermsIsCalled_ThenClearsCacheAndStoresNewEntry()
     {
       var cache = new Dictionary<string, string[]>();
       for (int i = 0; i < 100; i++)
@@ -479,8 +467,8 @@ namespace RegressionTestCollectorTests.Utils
       }
 
       var result = StringUtils.ParseSearchTerms("new input", cache, 100);
-      Assert.That(new[] { "new", "input" }, Is.EqualTo(result));
-      Assert.That(1, Is.EqualTo(cache.Count));
+      Assert.That(result, Is.EqualTo(new[] { "new", "input" }));
+      Assert.That(cache.Count, Is.EqualTo(1));
     }
 
 

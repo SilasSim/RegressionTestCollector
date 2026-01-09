@@ -14,13 +14,13 @@ namespace RegressionTestCollectorTests.Parser
         }
 
         [Test]
-        public void Constructor_SetQualifier()
+        public void WhenConstructorIsCalled_ThenQualifierIsSetCorrectly()
         {
             Assert.That(mSut.Qualifier, Is.EqualTo("TEST"));
         }
 
         [Test]
-        public void Parse_WithMatchingQualifier_ExtractsKeyValuePairs()
+        public void GivenDataStringWithQualifier_WhenParseIsCalled_ThenReturnContainsKeyValuePairs()
         {
             var data = "TEST arg1=val1 arg2=val2";
 
@@ -32,7 +32,7 @@ namespace RegressionTestCollectorTests.Parser
         }
 
         [Test]
-        public void Parse_WithNonMatchingQualifier_ReturnsEmptyDictionary()
+        public void GivenDataStringWithWrongQualifier_WhenParseIsCalled_ThenReturnsEmptyDictionary()
         {
             var data = "NoTest arg1=val1 arg2=val2";
 
@@ -42,7 +42,7 @@ namespace RegressionTestCollectorTests.Parser
         }
 
         [Test]
-        public void Parse_QualifierIgnoresCapitalization_ReturnsEmptyDictionary()
+        public void GivenDataStringWithQualifierInDifferentCase_WhenParseIsCalled_ThenReturnContainsKeyValuePairs()
         {
             var data = "teST arg1=val1 arg2=val2";
 
@@ -54,7 +54,7 @@ namespace RegressionTestCollectorTests.Parser
         }
 
         [Test]
-        public void Parse_WithQuotedValues_RemovesQuotes()
+        public void GivenDataStringWithQuotedValues_WhenParseIsCalled_ThenReturnContainsValuesWithoutQuotes()
         {
             var data = "TEST arg1=\"val1 with quote\" arg2=\'val2 with single quote\'";
 
@@ -67,7 +67,7 @@ namespace RegressionTestCollectorTests.Parser
 
 
         [Test]
-        public void Parse_WithEmptyData_ReturnsEmptyDictionary()
+        public void GivenDataStringWithOnlyQualifier_WhenParseIsCalled_ThenReturnsEmptyDictionary()
         {
             var data = "TEST";
 

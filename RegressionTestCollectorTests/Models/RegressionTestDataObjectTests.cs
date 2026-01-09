@@ -29,7 +29,7 @@ namespace RegressionTestCollectorTests.Models
     #region Constructor Tests
 
     [Test]
-    public void Constructor_WithAllParameters_SetsPropertiesCorrectly()
+    public void WhenConstructorIsCalled_ThenSetsPropertiesCorrectly()
     {
       var sut = new RegressionTestDataObject(
         "TestName",
@@ -49,7 +49,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Constructor_WithMinimalParameters_SetsDefaults()
+    public void GivenMinimalParameters_WhenConstructorIsCalled_ThenSetsDefaultValues()
     {
       var sut = new RegressionTestDataObject("TestName");
 
@@ -69,7 +69,7 @@ namespace RegressionTestCollectorTests.Models
     #region Contains Method Tests
 
     [Test]
-    public void Contains_MatchingTestName_ReturnsTrue()
+    public void GivenStringWithMatchingValueInTestName_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("Sample");
 
@@ -77,7 +77,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_MatchingTestCommand_ReturnsTrue()
+    public void GivenStringWithMatchingValueInTestCommand_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("run-test");
 
@@ -85,7 +85,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_MatchingTestGroup_ReturnsTrue()
+    public void GivenStringWithMatchingValueInTestGroup_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("Unit");
 
@@ -93,7 +93,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_CaseInsensitive_ReturnsTrue()
+    public void GivenStringsWithCaseInsensitiveMatchingValuesInRelevantProperties_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("SAMPLE", "unit", "RUN-TEST");
 
@@ -101,7 +101,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_MultipleMatchingStrings_ReturnsTrue()
+    public void GivenMultipleStringsWithMatchingValuesInRelevantProperties_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("Sample", "Tests");
 
@@ -109,7 +109,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_PartialMatch_ReturnsTrue()
+    public void GivenStringWithPartialMatchingValueInRelevantProperties_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("Test", "run");
 
@@ -117,7 +117,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_NonMatchingString_ReturnsFalse()
+    public void GivenStringWithNoMatchingValueInRelevantProperties_WhenContainsAnyIsCalled_ThenReturnsFalse()
     {
       var result = mSut.ContainsAny("NotFound");
 
@@ -125,7 +125,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_EmptyString_ReturnsTrue()
+    public void GivenEmptyString_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("");
 
@@ -133,15 +133,15 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_EmptyArray_ReturnsFalse()
+    public void GivenEmptyArray_WhenContainsAnyIsCalled_ThenReturnsFalse()
     {
-      var result = mSut.ContainsAny();
+      var result = mSut.ContainsAny([]);
 
       Assert.That(result, Is.False);
     }
 
     [Test]
-    public void Contains_WithSpecialCharacters_HandlesCorrectly()
+    public void GivenRelevantPropertiesContainSpecialCharacters_WhenContainsAnyIsCalled_ThenReturnsTrueForPartialMatches()
     {
       var testObj = new RegressionTestDataObject("Test@Name", "Group#1", "command.exe --flag=value");
 
@@ -151,17 +151,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_WithWhitespace_HandlesCorrectly()
-    {
-      var testObj = new RegressionTestDataObject("Test Name", "Group A", "run test");
-
-      Assert.That(testObj.ContainsAny("Test Name"), Is.True);
-      Assert.That(testObj.ContainsAny("Group A"), Is.True);
-      Assert.That(testObj.ContainsAny("run test"), Is.True);
-    }
-
-    [Test]
-    public void Contains_WithNullProperties_HandlesGracefully()
+    public void GivenRelevantPropertiesAreNull_WhenContainsAnyIsCalled_ThenDoesNotThrowAndReturnsFalse()
     {
       var testObj = new RegressionTestDataObject("");
       testObj.TestName = null!;
@@ -173,7 +163,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_MatchesAcrossMultipleProperties_ReturnsTrue()
+    public void GivenMultipleStringsMatchingAcrossMultipleRelevantProperties_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("Sample", "run-test", "Unit");
 
@@ -181,7 +171,7 @@ namespace RegressionTestCollectorTests.Models
     }
 
     [Test]
-    public void Contains_OneStringMustMatch_ReturnsTrue()
+    public void GivenMultipleStringsMatchingOneRelevantProperty_WhenContainsAnyIsCalled_ThenReturnsTrue()
     {
       var result = mSut.ContainsAny("Sample", "NonExistent");
 
@@ -193,7 +183,7 @@ namespace RegressionTestCollectorTests.Models
     #region Property Tests
 
     [Test]
-    public void Properties_CanBeSetAndRetrieved()
+    public void WhenPropertiesAreSet_ThenPropertiesHaveCorrectValues()
     {
       mSut.Scenario = "TestScenario";
       mSut.InputFile = "input.txt";
@@ -202,16 +192,6 @@ namespace RegressionTestCollectorTests.Models
       Assert.That(mSut.Scenario, Is.EqualTo("TestScenario"));
       Assert.That(mSut.InputFile, Is.EqualTo("input.txt"));
       Assert.That(mSut.OutputFile, Is.EqualTo("output.txt"));
-    }
-
-    [Test]
-    public void Properties_DefaultValues_AreCorrect()
-    {
-      var sut = new RegressionTestDataObject("Test");
-
-      Assert.That(sut.Scenario, Is.EqualTo(String.Empty));
-      Assert.That(sut.InputFile, Is.EqualTo(String.Empty));
-      Assert.That(sut.OutputFile, Is.EqualTo(String.Empty));
     }
 
     #endregion

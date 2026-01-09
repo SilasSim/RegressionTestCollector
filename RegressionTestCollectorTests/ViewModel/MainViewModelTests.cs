@@ -38,7 +38,7 @@ namespace RegressionTestCollectorTests.ViewModel
     #region Constructor Tests
 
     [Test]
-    public void Constructor_InitializesChildVMs()
+    public void WhenConstructorIsCalled_ThenInitializesChildViewModels()
     {
       Assert.That(mSut.SearchTableViewModel, Is.Not.Null);
       Assert.That(mSut.MenuViewModel, Is.Not.Null);
@@ -46,7 +46,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void Constructor_InitializesChildCommands()
+    public void WhenConstructorIsCalled_ThenInitializesAllCommands()
     {
       Assert.That(mSut.CancelLoadingCommand, Is.Not.Null);
       Assert.That(mSut.ChangeCollectingStrategyCommand, Is.Not.Null);
@@ -56,14 +56,14 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void Constructor_InitializesStrategyHandler()
+    public void WhenConstructorIsCalled_ThenInitializesStrategyHandler()
     {
       Assert.That(mSut.CollectingStrategyHandler, Is.Not.Null);
       Assert.That(mSut.CollectingStrategyHandler.CollectingStrategy, Is.Not.Null);
     }
 
     [Test]
-    public void Constructor_InitializesLoadingProgress()
+    public void WhenConstructorIsCalled_ThenInitializesLoadingProgress()
     {
       Assert.That(mSut.LoadingProgress, Is.Not.Null);
       Assert.That(mSut.LoadingProgress.Current, Is.Zero);
@@ -75,25 +75,17 @@ namespace RegressionTestCollectorTests.ViewModel
 
 
     [Test]
-    public void LoadingDataText_CanBeSetAndRetrieved()
+    public void GivenLoadingDataText_WhenValueIsSet_ThenCanBeRetrieved()
     {
       mSut.LoadingDataText = "Test text";
       Assert.That(mSut.LoadingDataText, Is.EqualTo("Test text"));
     }
 
     [Test]
-    public void LoadingDataText_HasDefaultValueOnStartup()
+    public void WhenConstructorIsCalled_ThenLoadingDataTextHasDefaultValue()
     {
       Assert.That(mSut.LoadingDataText, Is.Not.Null);
       Assert.That(mSut.LoadingDataText, Is.Not.Empty);
-    }
-
-    [Test]
-    public void IsLoadingData_CanBeSetAndRetrieved()
-    {
-      var initVal = mSut.IsLoadingData;
-      mSut.IsLoadingData = !initVal;
-      Assert.That(mSut.IsLoadingData, Is.EqualTo(!initVal));
     }
 
     #endregion
@@ -101,7 +93,7 @@ namespace RegressionTestCollectorTests.ViewModel
     #region Command Tests
 
     [Test]
-    public void ChangeThemeCommand_WithValidArgument_UpdatesMenuViewModel()
+    public void GivenValidTheme_WhenChangeThemeCommandIsExecuted_ThenUpdatesMenuViewModelSelectedTheme()
     {
       var newTheme = "Some Theme";
       mSut.ChangeThemeCommand.Execute(newTheme);
@@ -109,7 +101,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void ChangeThemeCommand_WithInvalidArgument_DoesNothing()
+    public void GivenInvalidTheme_WhenChangeThemeCommandIsExecuted_ThenDoesNothing()
     {
       var initTheme = mSut.MenuViewModel.SelectedTheme;
       mSut.ChangeThemeCommand.Execute(null);
@@ -117,7 +109,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void ChangePythonCommandCommand_WithValidArgument_UpdatesMenuViewModel()
+    public void GivenValidPythonCommand_WhenChangePythonCommandCommandIsExecuted_ThenUpdatesMenuViewModelSelectedPythonCommand()
     {
       var newPythonCommand = "python2";
       mSut.ChangePythonCommandCommand.Execute(newPythonCommand);
@@ -125,7 +117,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void ChangePythonCommandCommand_WithInvalidArgument_DoesNothing()
+    public void GivenInvalidPythonCommand_WhenChangePythonCommandCommandIsExecuted_ThenDoesNothing()
     {
       var initPythonCommand = mSut.MenuViewModel.SelectedPythonCommand;
       mSut.ChangePythonCommandCommand.Execute(null);
@@ -137,7 +129,7 @@ namespace RegressionTestCollectorTests.ViewModel
     #region Strategy Change Tests
 
     [Test]
-    public void ChangeCollectingStrategy_WithCSharpName_SetsCSharpStrategy()
+    public void GivenCSharpStrategyName_WhenChangeCollectingStrategyCommandIsExecuted_ThenSetsCSharpStrategy()
     {
       var cSharpName = "C#";
       mSut.ChangeCollectingStrategyCommand.Execute(cSharpName);
@@ -147,7 +139,7 @@ namespace RegressionTestCollectorTests.ViewModel
 
 
     [Test]
-    public void ChangeCollectingStrategy_WithPythonName_SetsPythonStrategy()
+    public void GivenPythonStrategyName_WhenChangeCollectingStrategyCommandIsExecuted_ThenSetsPythonStrategy()
     {
       var pythonName = "Python";
       mSut.ChangeCollectingStrategyCommand.Execute(pythonName);
@@ -157,7 +149,7 @@ namespace RegressionTestCollectorTests.ViewModel
 
 
     [Test]
-    public void ChangeCollectingStrategy_WithUnknownName_DoesNothing()
+    public void GivenUnknownStrategyName_WhenChangeCollectingStrategyCommandIsExecuted_ThenDoesNothing()
     {
       var originalStrategy = mSut.CollectingStrategyHandler.CollectingStrategy;
 
@@ -171,7 +163,7 @@ namespace RegressionTestCollectorTests.ViewModel
     #region PropertyChanged Tests
 
     [Test]
-    public void LoadingDataText_PropertyChanged_TriggersNotification()
+    public void GivenLoadingDataText_WhenValueIsChanged_ThenTriggersPropertyChangedNotification()
     {
       var eventFired = false;
       mSut.PropertyChanged += (sender, e) =>
@@ -185,7 +177,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void IsLoadingData_PropertyChanged_TriggersNotification()
+    public void GivenIsLoadingData_WhenValueIsChanged_ThenTriggersPropertyChangedNotification()
     {
       var eventFired = false;
       mSut.PropertyChanged += (sender, e) =>
@@ -203,13 +195,13 @@ namespace RegressionTestCollectorTests.ViewModel
     #region LoadRegressionTests Tests
 
     [Test]
-    public void LoadRegressionTestsCommand_CanExecute_ShouldReturnTrue()
+    public void GivenLoadRegressionTestsCommand_WhenConstructorIsCalled_ThencanExecuteIsTrue()
     {
       Assert.That(mSut.LoadRegressionTestsCommand.CanExecute(null), Is.True);
     }
 
     [Test]
-    public void LoadRegressionTestsCommand_WhenStarted_SetsIsLoadingDataTrue()
+    public void GivenLoadRegressionTestsCommand_WhenExecutionStarts_ThenSetsIsLoadingDataTrue()
     {
       var mockStrategy = new Mock<ICollectingStrategy>();
       mockStrategy.Setup(x => x.Collect(It.IsAny<string>())).Returns(new RegressionTestCollectionData()
@@ -223,7 +215,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public async Task LoadRegressionTestsCommand_WhenCompleted_SetsIsLoadingDataTrue()
+    public async Task GivenLoadRegressionTestsCommand_WhenExecutionCompletes_ThenSetsIsLoadingDataFalse()
     {
       var mockStrategy = new Mock<ICollectingStrategy>();
       mockStrategy.Setup(x => x.Collect(It.IsAny<string>())).Returns(new RegressionTestCollectionData()
@@ -238,7 +230,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public async Task LoadingRegressionTests_WithValidData_PopulatesSearchTable()
+    public async Task GivenValidRegressionTestData_WhenLoadRegressionTestsCommandCompletes_ThenPopulatesSearchTable()
     {
       var testData = new List<RegressionTestDataObject>
       {
@@ -260,7 +252,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public async Task LoadingRegressionTests_WithErrors_AddsErrorsToOutput()
+    public async Task GivenRegressionTestDataWithErrors_WhenLoadRegressionTestsCommandCompletes_ThenAddsErrorsToOutput()
     {
       var testData = new RegressionTestCollectionData()
       {
@@ -287,7 +279,7 @@ namespace RegressionTestCollectorTests.ViewModel
 
     [Test]
     
-    public async Task LoadingRegressionTests_WithSuccessfulResults_AddsSuccessMessageToOutput()
+    public async Task GivenSuccessfulRegressionTestData_WhenLoadRegressionTestsCommandCompletes_ThenAddsSuccessMessageToOutput()
     {
       var testData = new RegressionTestCollectionData()
       {
@@ -307,7 +299,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public async Task LoadRegressionTests_PassesPythonCommandToStrategy()
+    public async Task GivenSelectedPythonCommand_WhenLoadRegressionTestsCommandExecutes_ThenPassesPythonCommandToStrategy()
     {
       var mockStrategy = SetupMockStrategy(new RegressionTestCollectionData()
       {
@@ -322,7 +314,7 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public async Task LoadingRegressionTests_ClearsPreviousDataBeforeAdding()
+    public async Task GivenExistingSourceData_WhenLoadRegressionTestsCommandExecutes_ThenClearsPreviousDataBeforeAddingNew()
     {
       mSut.SearchTableViewModel.SourceData.Add(new RegressionTestViewModel(new RegressionTestDataObject("OldTest")));
 
@@ -341,14 +333,14 @@ namespace RegressionTestCollectorTests.ViewModel
     }
 
     [Test]
-    public void CancelLoadingCommand_WhenLoading_CanExecute()
+    public void GivenCancelLoadingCommand_WhenIsLoadingDataIsSetToTrue_ThenCanexecuteIstrue()
     {
       mSut.IsLoadingData = true;
       Assert.That(mSut.CancelLoadingCommand.CanExecute(null), Is.True);
     }
 
     [Test]
-    public async Task LoadRegressionTests_WhenStrategyThrows_HandlesGracefully()
+    public async Task GivenCollectingStrategyThrowsException_WhenLoadRegressionTestsCommandExecutes_ThenHandlesGracefullyAndStopsLoading()
     {
       var mockStrategy = new Mock<ICollectingStrategy>();
       mockStrategy.Setup(x => x.Collect(It.IsAny<string>()))

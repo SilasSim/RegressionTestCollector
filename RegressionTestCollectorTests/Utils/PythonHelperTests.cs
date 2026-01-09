@@ -37,7 +37,7 @@ namespace RegressionTestCollectorTests.Utils
     #region ReadPythonOutputFile Tests
 
     [Test]
-    public void ReadPythonOutputFile_FileExists_ReturnsContent()
+    public void GivenExistingOutputFile_WhenReadPythonOutputFileIsCalled_ThenReturnsFileContent()
     {
       string testContent = "Test output content\nSecond line";
       string testFile = Path.Combine(mTestDirectory, "output.txt");
@@ -49,7 +49,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void ReadPythonOutputFile_EmptyFile_ReturnsEmpty()
+    public void GivenEmptyOutputFile_WhenReadPythonOutputFileIsCalled_ThenReturnsEmptyString()
     {
       string testFile = Path.Combine(mTestDirectory, "empty.txt");
       File.WriteAllText(testFile, "");
@@ -64,7 +64,7 @@ namespace RegressionTestCollectorTests.Utils
     #region CreateAndTransformCopy Tests
 
     [Test]
-    public void CreateAndTransformCopy_FileExists_CreatesTransformedCopy()
+    public void GivenExistingPythonFile_WhenCreateAndTransformCopyIsCalled_ThenCreatesTransformedCopy()
     {
       string originalContent = "import module\nrequired=True\nother content\nServerApi.StartServer()";
       File.WriteAllText(mTestPythonFile, originalContent);
@@ -84,7 +84,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateAndTransformCopy_FileDoesNotExist_ReturnsEmpty()
+    public void GivenNoExistentPythonFile_WhenCreateAndTransformCopyIsCalled_ThenReturnsEmptyString()
     {
       string nonExistentFile = Path.Combine(mTestDirectory, "nonexistent.py");
 
@@ -98,7 +98,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateAndTransformCopy_EmptyReplacementArrays_CopiesFileUnchanged()
+    public void GivenEmptyReplacementArrays_WhenCreateAndTransformCopyIsCalled_ThenCopiesFileUnchanged()
     {
       string originalContent = "unchanged content\nwith multiple lines";
       File.WriteAllText(mTestPythonFile, originalContent);
@@ -115,7 +115,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateAndTransformCopy_RegexPatternsToRemove_RemovesMatchingPatterns()
+    public void GivenRegexPatternsForRemoval_WhenCreateAndTransformCopyIsCalled_ThenRemovesMatchingLines()
     {
       string originalContent = "line1\n# comment line\nline3\n## another comment\nline5";
       File.WriteAllText(mTestPythonFile, originalContent);
@@ -135,7 +135,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateAndTransformCopy_MultipleReplacements_ReplacesAll()
+    public void GivenMultipleReplacementTerms_WhenCreateAndTransformCopyIsCalled_ThenReplacesAllOccurrences()
     {
       string originalContent = "first string\nsecond string\nthird content";
       File.WriteAllText(mTestPythonFile, originalContent);
@@ -155,7 +155,7 @@ namespace RegressionTestCollectorTests.Utils
     #region CreateDebugCopy Tests
 
     [Test]
-    public void CreateDebugCopy_ModifiesRequiredTrue_ReplacesWithFalse()
+    public void GivenPythonScriptWithRequiredTrue_WhenCreateDebugCopyIsCalled_ThenReplacesWithRequiredFalse()
     {
       string pythonContent = "parser.add_argument('--input', required=True)\nother line";
       File.WriteAllText(mTestPythonFile, pythonContent);
@@ -179,7 +179,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateDebugCopy_ComentsOutServerStart_AddsCommentPrefix()
+    public void GivenPythonScriptWithServerStartCall_WhenCreateDebugCopyIsCalled_ThenCommentsOutServerStartLine()
     {
       string pythonContent = "    ServerApi.StartServer(config)\n    other_line()";
       File.WriteAllText(mTestPythonFile, pythonContent);
@@ -203,7 +203,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateDebugCopy_CommentsOutWaitForServer_AddsCommentPrefix()
+    public void GivenPythonScriptWithWaitForServerCall_WhenCreateDebugCopyIsCalled_ThenCommentsOutWaitForServerToStart()
     {
       string pythonContent = "some_function()\nwaitForServerToStart()\nother_code()";
       File.WriteAllText(mTestPythonFile, pythonContent);
@@ -226,7 +226,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateDebugCopy_AddsArgumentsAfterParseKnownArgs_InsertsCorrectArguments()
+    public void GivenPythonScriptWithParseKnownArgsStatement_WhenCreateDebugCopyIsCalled_ThenInjectsInputOutputAndScenarioArgsInCopy()
     {
       string pythonContent = "args = parser.parse_known_args()\nrest_of_code()";
       File.WriteAllText(mTestPythonFile, pythonContent);
@@ -252,7 +252,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void CreateDebugCopy_CreatesFileWithDebugSuffix_HasCorrectName()
+    public void GivenPythonScript_WhenCreateDebugCopyIsCalled_ThenCreatesFileWithDebugRtcSuffix()
     {
       File.WriteAllText(mTestPythonFile, "dummy content");
 
@@ -277,7 +277,7 @@ namespace RegressionTestCollectorTests.Utils
     #region RunProcess Tests
 
     [Test]
-    public void RunProcess_SimpleEchoCommand_ReturnsOutput()
+    public void GivenSimpleEchoCommand_WhenRunProcessIsCalled_ThenReturnsStandardOutput()
     {
       var processInfo = new ProcessStartInfo()
       {
@@ -295,7 +295,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void RunProcess_WithOutputCallback_CallsCallback()
+    public void GivenOutputCallback_WhenRunProcessIsCalled_ThenInvokesOutputCallback()
     {
       var outputReceived = new List<string>();
       var processInfo = new ProcessStartInfo()
@@ -314,7 +314,7 @@ namespace RegressionTestCollectorTests.Utils
     }
 
     [Test]
-    public void RunProcess_WithErrorCallback_CallsCallbackOnError()
+    public void GivenProcessWithErrorCallback_WhenRunProcessIsCalled_ThenInvokesErrorCallbackOnStderr()
     {
       var errorsReceived = new List<string>();
       var processInfo = new ProcessStartInfo()

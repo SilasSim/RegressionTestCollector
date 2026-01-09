@@ -17,7 +17,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithValidXmlContainingNameAndServer_ReturnsCorrectData()
+    public void GivenValidXmlWithNameAndServerParameter_WhenParseIsCalled_ThenReturnsNameAndServerDefaultValue()
     {
 
       var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -39,7 +39,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithMissingNameElement_ReturnsEmptyName()
+    public void GivenXmlMissingNameElement_WhenParseIsCalled_ThenReturnsEmptyName()
     {
 
       var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -60,7 +60,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithMissingDefaultServerParameter_ReturnsEmptyDefaultServerString()
+    public void GivenXmlMissingDefaultServerParameter_WhenParseIsCalled_ThenReturnsEmptyServerDefaultValue()
     {
 
       var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -81,7 +81,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithEmptyXml_ReturnsEmptyValues()
+    public void GivenEmptyTestDefinitionXml_WhenParseIsCalled_ThenReturnsEmptyValues()
     {
 
       var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -96,7 +96,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithServerParameterWithoutDefaultValue_ReturnsEmptyString()
+    public void GivenServerParameterWithoutDefaultValue_WhenParseIsCalled_ThenReturnsEmptyServerDefaultValue()
     {
       var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
 <TESTDEFINITION>
@@ -116,7 +116,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithEmptyServerParameterContent_ReturnsEmptyString()
+    public void GivenServerParameterWithEmptyContent_WhenParseIsCalled_ThenReturnsEmptyServerDefaultValue()
     {
       var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
 <TESTDEFINITION>
@@ -136,12 +136,10 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithInvalidXml_ThrowsException()
+    public void GivenInvalidXml_WhenParseIsCalled_ThenThrowsXmlException()
     {
-      // Arrange
       var invalidXml = @"<ROOT><NAME>Unclosed";
 
-      // Act & Assert
       Assert.Throws<System.Xml.XmlException>(() => suv.Parse(invalidXml));
     }
 

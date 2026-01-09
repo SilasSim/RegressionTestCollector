@@ -26,7 +26,7 @@ namespace RegressionTestCollectorTests.Parser
     #region Basic Parsing Tests
 
     [Test]
-    public void Parse_ValidXmlWithEqualityTests_ReturnsCorrectData()
+    public void GivenValidXmlWithEqualityTests_WhenParseIsCalled_ThenReturnsCorrectRegressionTestDat()
     {
       var xmlData = CreateBasicXmlWithEqualityTest();
 
@@ -39,7 +39,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_ValidXmlWithFailTests_ReturnsCorrectData()
+    public void GivenValidXmlWithFailTests_WhenParseIsCalled_ThenReturnsCorrectRegressionTestDat()
     {
       var xmlData = CreateBasicXmlWithFailTest();
 
@@ -52,7 +52,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_EmptyXml_ReturnsEmptyResult()
+    public void GivenEmptyXml_WhenParseIsCalled_ThenReturnsEmptyResult()
     {
       var xmlData = "<root></root>";
 
@@ -63,7 +63,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_InvalidXml_ThrowsException()
+    public void GivenInvalidXml_WhenParseIsCalled_ThenThrowsXmlException()
     {
       var xmlData = "<invalid><unclosed>";
 
@@ -75,7 +75,7 @@ namespace RegressionTestCollectorTests.Parser
     #region INI File Handling Tests
 
     [Test]
-    public void Parse_WithIniFiles_MapsIniFilesCorrectly()
+    public void GivenXmlWithIniFiles_WhenParseIsCalled_ThenMapsIniFilePathCorrectly()
     {
       var xmlData = CreateXmlWithIniFiles();
 
@@ -88,7 +88,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithRootDirReplacement_ReplacesCorrectly()
+    public void GivenXmlWithRootDirPlaceholders_WhenParseIsCalled_ThenReplacesPathsWithRootDir()
     {
       var xmlData = @"
         <root>
@@ -110,7 +110,6 @@ namespace RegressionTestCollectorTests.Parser
 
       var test = result.RegressionTests[0];
       
-      // Check path components instead of exact format
       Assert.That(test.Inifile, Does.Contain(mTestRootDir));
       Assert.That(test.Inifile, Does.Contain("configs"));
       Assert.That(test.Inifile, Does.Contain("test.ini"));
@@ -125,7 +124,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithoutIniFileId_ThrowsKeyNotFoundException()
+    public void GivenXmlReferencingMissingIniId_WhenParseIsCalled_ThenThrowsKeyNotFoundException()
     {
       var xmlData = @"
         <root>
@@ -151,7 +150,7 @@ namespace RegressionTestCollectorTests.Parser
     #region Multiple Test Types Tests
 
     [Test]
-    public void Parse_WithMultipleTestTypes_ParsesAllTypes()
+    public void GivenXmlWithMultipleTestTypes_WhenParseIsCalled_ThenParsesEqualityAndFailTests()
     {
       var xmlData = CreateXmlWithMultipleTestTypes();
 
@@ -169,7 +168,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithMultipleTestsOfSameType_ParsesAll()
+    public void GivenXmlWithMultipleEqualityTests_WhenParseIsCalled_ThenParsesAllTests()
     {
       var xmlData = @"
         <root>
@@ -202,7 +201,7 @@ namespace RegressionTestCollectorTests.Parser
     #region Additional Parameters Tests
 
     [Test]
-    public void Parse_WithAdditionalParameters_ParsesCorrectly()
+    public void GivenXmlWithAdditionalParameters_WhenParseIsCalled_ThenMapsParametersToDictionary()
     {
       var xmlData = @"
         <root>
@@ -233,7 +232,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithEmptyAdditionalParameters_HandlesGracefully()
+    public void GivenXmlWithEmptyAdditionalParameters_WhenParseIsCalled_ThenAdditionalParameterIsEmpty()
     {
       var xmlData = @"
         <root>
@@ -264,7 +263,7 @@ namespace RegressionTestCollectorTests.Parser
     #region Edge Cases Tests
 
     [Test]
-    public void Parse_WithMissingTestName_SkipsTest()
+    public void GivenXmlMissingTestName_WhenParseIsCalled_ThenSkipsTest()
     {
       var xmlData = @"
         <root>
@@ -288,7 +287,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithMissingSourceFiles_CreatesTestWithEmptySource()
+    public void GivenXmlWithoutSourceFiles_WhenParseIsCalled_ThenCreatesTestWithEmptySourcePath()
     {
       var xmlData = @"
         <root>
@@ -312,7 +311,7 @@ namespace RegressionTestCollectorTests.Parser
     }
 
     [Test]
-    public void Parse_WithLogFile_ParsesLogFileCorrectly()
+    public void GivenXmlWithLogFile_WhenParseIsCalled_ThenSetsLogfileToSpecifiedValue()
     {
       var xmlData = @"
         <root>
@@ -335,59 +334,6 @@ namespace RegressionTestCollectorTests.Parser
 
       var test = result.RegressionTests[0];
       Assert.That(test.Logfile, Is.EqualTo("test.log"));
-    }
-
-    #endregion
-
-    #region RegressionTestConfiguration Command String Tests
-
-    [Test]
-    public void GetCommandStringForPythonScript_WithAllParameters_GeneratesCorrectString()
-    {
-      var config = new RegressionTestConfiguration("TestConfig", RegressionTestKind.EqualityTest)
-      {
-        Inifile = "config.ini",
-        Sourcefile = "input.txt",
-        Outfile = "output.txt",
-        Logfile = "test.log",
-        AdditionalParameter = new Dictionary<string, string>
-        {
-          { "verbose", "true" },
-          { "debug", "false" }
-        }
-      };
-
-      var commandString = config.GetCommandStringForPythonScript();
-
-      Assert.That(commandString, Does.Contain("-i \"input.txt\""));
-      Assert.That(commandString, Does.Contain("-o \"output.txt\""));
-      Assert.That(commandString, Does.Contain("-g \"test.log\""));
-      Assert.That(commandString, Does.Contain("-ini \"config.ini\""));
-      Assert.That(commandString, Does.Contain("-verbose \"true\""));
-      Assert.That(commandString, Does.Contain("-debug \"false\""));
-    }
-
-    [Test]
-    public void GetCommandStringForPythonScript_WithEmptyParameters_GeneratesEmptyString()
-    {
-      var config = new RegressionTestConfiguration("TestConfig", RegressionTestKind.EqualityTest);
-
-      var commandString = config.GetCommandStringForPythonScript();
-
-      Assert.That(commandString, Is.EqualTo(""));
-    }
-
-    [Test]
-    public void GetCommandStringForPythonScript_WithOnlySourcefile_GeneratesCorrectString()
-    {
-      var config = new RegressionTestConfiguration("TestConfig", RegressionTestKind.EqualityTest)
-      {
-        Sourcefile = "input.txt"
-      };
-
-      var commandString = config.GetCommandStringForPythonScript();
-
-      Assert.That(commandString, Is.EqualTo("-i \"input.txt\""));
     }
 
     #endregion

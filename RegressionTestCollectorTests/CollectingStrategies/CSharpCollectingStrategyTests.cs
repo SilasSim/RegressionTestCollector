@@ -24,7 +24,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void Properties_CanBeSetAndRetrieved()
+    public void WhenPropertiesAreSet_PropertiesCanBeSetAndRetrieved()
     {
       mSut.BatFilePattern = "TEST*.bat";
       mSut.PythonScriptPattern = "TEST(.py";
@@ -36,7 +36,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void DefaultValues_AreCorrect()
+    public void WhenConstructorIsCalled_ThenDefaultValuesAreSet()
     {
       Assert.That(mSut.BatFilePattern, Is.EqualTo("RegressionTest*.bat"));
       Assert.That(mSut.PythonScriptPattern, Is.EqualTo("RegTest*.py"));
@@ -46,7 +46,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     #region FormatOutputString Tests
 
     [Test]
-    public void FormatOutputString_WithValidArrayString_FormatsCorrectly()
+    public void GivenValidArrayString_WhenFormatOutputStringIsCalled_ThenReturnsFormatedString()
     {
       var input = "['/path/to/file', '--debug', 'value with spaces']";
 
@@ -56,7 +56,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void FormatOutputString_WithBackslashes_ConvertsToForwardSlashes()
+    public void GivenEscapedWindowsPath_WhenFormatOutputStringIsCalled_ThenReturnsUnescapedPath()
     {
       var input = "['C:\\\\Program Files\\\\app.exe', '--arg']";
 
@@ -66,7 +66,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void FormatOutputString_WithLeadingBackslash_ConvertsToHyphen()
+    public void GivenLeadingBackslashes_WhenFormatOutputStringIsCalled_ThenReplacesBlackslashesWithHyphens()
     {
       var input = "['\\debug', '\\verbose']";
 
@@ -77,7 +77,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void FormatOutputString_WithSpacesInArguments_AddsQuotes()
+    public void GivenSpacesInInput_WhenFormatOutputStringIsCalled_ThenReturnsStringWithArgumentsInQuotation()
     {
       var input = "['file name with spaces.txt', 'no-spaces']";
 
@@ -88,7 +88,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void FormatOutputString_WithInvalidFormat_ReturnsEmpty()
+    public void GivenInvalidFormat_WhenFormatOutputStringIsCalled_ThenReturnsEmptyString()
     {
       var input = "not an array format";
 
@@ -98,7 +98,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void FormatOutputString_WithEmptyArray_ReturnsEmpty()
+    public void GivenEmptyArray_WhenFormatOutputStringIsCalled_ThenReturnsEmptyString()
     {
       var input = "[]";
 
@@ -112,7 +112,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     #region CheckForMissingBatArguments
 
     [Test]
-    public void CheckForMissingBatArguments_WithAllRequired_ReturnsEmpty()
+    public void GivenAllRequiredArguments_WhenCheckForMissingBatArgumentsIsCalled_ReturnsEmptyArray()
     {
       var batArgs = new Dictionary<string, string>
       {
@@ -128,7 +128,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void CheckForMissingBatArguments_WithMissingDef_ReturnsDef()
+    public void GivenNoDefArgument_WhenCheckForMissingBatArgumentsIsCalled_ThenReturnsArrayWithMissingArgumentNameDef()
     {
       var batArgs = new Dictionary<string, string>
       {
@@ -144,7 +144,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void CheckForMissingBatArguments_WithMultipleMissing_ReturnsAll()
+    public void GivenMultipleMissingArguments_WhenCheckForMissingBatArgumentsIsCalled_ThenReturnsArrayWithAllMissingArguments()
     {
       var batArgs = new Dictionary<string, string>
       {
@@ -160,7 +160,7 @@ namespace RegressionTestCollectorTests.CollectingStrategies
     }
 
     [Test]
-    public void CheckForMissingBatArguments_WithEmptyDictionary_ReturnsAllRequired()
+    public void GivenEmptyDictionary_WhenCheckForMissingBatArgumentsIsCalled_ReturnsArrayWithAllRequiredArguments()
     {
       var batArgs = new Dictionary<string, string>();
 
