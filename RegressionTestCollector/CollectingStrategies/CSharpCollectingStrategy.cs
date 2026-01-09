@@ -9,22 +9,25 @@ using RegressionTestCollector.Utils;
 
 namespace RegressionTestCollector.CollectingStrategies
 {
-    /// <summary>
-    /// Collection strategy directly implemented in CSharp
-    /// </summary>
-    public class CSharpCollectingStrategy : ICollectingStrategy
+  /// <summary>
+  /// Collection strategy directly implemented in CSharp
+  /// </summary>
+  public class CSharpCollectingStrategy : ICollectingStrategy
   {
     public event EventHandler<LoadingProgressEventArgs>? ProgressChanged;
-    public CSharpCollectingStrategy(EventHandler<LoadingProgressEventArgs> onProgressChanged)
+    public CSharpCollectingStrategy(EventHandler<LoadingProgressEventArgs>? handleProgressChanged)
     {
-      ProgressChanged += onProgressChanged;
+      if (handleProgressChanged is not null)
+      {
+        ProgressChanged += handleProgressChanged;
+      }
     }
 
     public LoadingProgress? Progress { get; private set; }
     public string BatFilePattern { get; set; } = "RegressionTest*.bat";
     public string PythonScriptPattern { get; set; } = "RegTest*.py";
     public string PythonCommandVersion { get; set; } = "python";
-    private RegressionTestParser mParser = new();
+    private readonly RegressionTestParser mParser = new();
     public RegressionTestCollectionData Collect(string pythonCommand)
     {
       PythonCommandVersion = pythonCommand;
@@ -119,7 +122,7 @@ namespace RegressionTestCollector.CollectingStrategies
       }
 
       var pythonScriptCopy = PythonHelper.CreateAndTransformCopy(
-        pythonScriptPaths[0], "print(command)", 
+        pythonScriptPaths[0], "print(command)",
         ["subprocess.Popen(command)", "subprocess.run(command)"],
         [@"def\s+CreateInputCopyAndAdjustInput\s*\([^)]*\):\s*(?:\n[ \t]+.*)+",
           "CreateInputCopyAndAdjustInput()",
@@ -147,14 +150,12 @@ namespace RegressionTestCollector.CollectingStrategies
       }
 
       CheckAndSetLinuxSupport(configPath, configDataObject);
-      
+
       try
       {
         // running python tests
         foreach (var regressionTest in configDataObject.RegressionTests)
         {
-          Debug.Write(".");
-
           ProcessStartInfo startInfo = new ProcessStartInfo()
           {
             FileName = PythonCommandVersion,
@@ -171,7 +172,7 @@ namespace RegressionTestCollector.CollectingStrategies
 
           var folderPath = Path.GetDirectoryName(path) ?? string.Empty;
           result.Data.Add(new RegressionTestDataObject(regressionTest.Name, definitionData.Name,
-            FormatOutputString(outString), 
+            FormatOutputString(outString),
             folderPath, batArguments["rootDir"].Replace(@"/", @"\").Replace(@"\\", @"\"), pythonScriptPaths[0])
           {
             InputFile = regressionTest.Sourcefile,
@@ -253,7 +254,7 @@ namespace RegressionTestCollector.CollectingStrategies
 
       var arguments = outString.Split(",");
 
-      StringBuilder stringBuilder = new StringBuilder();
+      StringBuilder stringBuilder = new();
       foreach (var argument in arguments)
       {
         var argumentString = argument.Trim();

@@ -12,12 +12,12 @@ namespace RegressionTestCollector.Models
   public class Highlighter : ObservableObject
   {
     public EventHandler<PropertyValueChangedEventArgs>? PropertyValueChanged;
-    private bool _isTurnedOff;
+    private bool mIsTurnedOff;
 
     public bool IsTurnedOff
     {
-      get => _isTurnedOff;
-      set => SetField(ref _isTurnedOff, value);
+      get => mIsTurnedOff;
+      set => SetField(ref mIsTurnedOff, value);
     }
 
     protected new bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")

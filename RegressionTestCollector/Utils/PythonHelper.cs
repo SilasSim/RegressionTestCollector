@@ -21,7 +21,6 @@ namespace RegressionTestCollector.Utils
       {
         if (process == null)
         {
-          Trace.WriteLine("Process is null");
           return "";
         }
 
@@ -82,10 +81,6 @@ namespace RegressionTestCollector.Utils
           string indentation = line.Substring(0, indentLength);
 
           var absoluteRootDir = Path.GetFullPath(obj.RootDir, obj.FolderPath);
-
-          Trace.WriteLine(absoluteRootDir);
-          Trace.WriteLine(obj.RootDir);
-          Trace.WriteLine($"{indentation}args.i = \"{obj.InputFile}\"");
 
           var argLine = $"{indentation}args.i = \"{obj.InputFile}\""
             .Replace(obj.RootDir.Replace(@"\", @"/"), absoluteRootDir)

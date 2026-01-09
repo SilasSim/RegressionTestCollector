@@ -2,37 +2,37 @@
 
 namespace RegressionTestCollector.Models
 {
-    public class LoadingProgress : ObservableObject
+  public class LoadingProgress : ObservableObject
+  {
+    public LoadingProgress(int current, int max)
     {
-        public LoadingProgress(int current, int max)
-        {
-            Max = max;
-            Current = current;
-        }
-
-        private int mMax;
-
-        public int Max
-        {
-            get => mMax;
-            set => SetField(ref mMax, value);
-        }
-
-        private int mCurrent;
-
-        public int Current
-        {
-            get => mCurrent;
-            set => SetField(ref mCurrent, value);
-        }
+      Max = max;
+      Current = current;
     }
 
-    public class LoadingProgressEventArgs : EventArgs
+    private int mMax;
+
+    public int Max
     {
-        public LoadingProgress Progress { get; }
-        public LoadingProgressEventArgs(LoadingProgress progress)
-        {
-            Progress = progress;
-        }
+      get => mMax;
+      set => SetField(ref mMax, value);
     }
+
+    private int mCurrent;
+
+    public int Current
+    {
+      get => mCurrent;
+      set => SetField(ref mCurrent, value);
+    }
+  }
+
+  public class LoadingProgressEventArgs : EventArgs
+  {
+    public LoadingProgress Progress { get; }
+    public LoadingProgressEventArgs(LoadingProgress progress)
+    {
+      Progress = progress;
+    }
+  }
 }

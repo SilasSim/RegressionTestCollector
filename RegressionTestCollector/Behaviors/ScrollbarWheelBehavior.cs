@@ -23,22 +23,22 @@ namespace RegressionTestCollector.Behaviors
       {
         if ((bool)e.NewValue)
         {
-          frameworkElement.Loaded += OnLoaded;
-          frameworkElement.Unloaded += OnUnloaded;
+          frameworkElement.Loaded += HandleLoaded;
+          frameworkElement.Unloaded += HandleUnloaded;
         }
         else
         {
-          frameworkElement.Loaded -= OnLoaded;
-          frameworkElement.Unloaded -= OnUnloaded;
+          frameworkElement.Loaded -= HandleLoaded;
+          frameworkElement.Unloaded -= HandleUnloaded;
           if (FindScrollViewer(frameworkElement) is ScrollViewer scrollViewer)
           {
-            scrollViewer.PreviewMouseWheel -= OnPreviewMouseWheel;
+            scrollViewer.PreviewMouseWheel -= HandlePreviewMouseWheel;
           }
         }
       }
     }
 
-    private static void OnLoaded(object sender, RoutedEventArgs e)
+    private static void HandleLoaded(object sender, RoutedEventArgs e)
     {
       if (sender is not DependencyObject dependencyObject)
       {
@@ -54,28 +54,28 @@ namespace RegressionTestCollector.Behaviors
 
     private static void Attach(ScrollViewer scrollViewer)
     {
-      scrollViewer.PreviewMouseWheel -= OnPreviewMouseWheel;
-      scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
+      scrollViewer.PreviewMouseWheel -= HandlePreviewMouseWheel;
+      scrollViewer.PreviewMouseWheel += HandlePreviewMouseWheel;
     }
 
 
 
-    private static void OnUnloaded(object? sender, RoutedEventArgs e)
+    private static void HandleUnloaded(object? sender, RoutedEventArgs e)
     {
-      if (sender is not DependencyObject dependencyObject) { return;}
+      if (sender is not DependencyObject dependencyObject) { return; }
 
       var scrollViewer = FindScrollViewer(dependencyObject);
       if (scrollViewer != null)
       {
-        scrollViewer.PreviewMouseWheel -= OnPreviewMouseWheel;
+        scrollViewer.PreviewMouseWheel -= HandlePreviewMouseWheel;
       }
     }
 
-    private static void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    private static void HandlePreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
-      if (sender is not ScrollViewer scrollViewer) { return;}
+      if (sender is not ScrollViewer scrollViewer) { return; }
 
-      
+
 
       if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
       {
